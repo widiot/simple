@@ -1,0 +1,2 @@
+graft simpleblog/static
+graft simpleblog/templates
