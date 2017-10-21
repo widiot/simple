@@ -1,0 +1,9 @@
+MANIFEST.in
+README.md
+simpleblog/__init__.py
+simpleblog.egg-info/PKG-INFO
+simpleblog.egg-info/SOURCES.txt
+simpleblog.egg-info/dependency_links.txt
+simpleblog.egg-info/not-zip-safe
+simpleblog.egg-info/requires.txt
+simpleblog.egg-info/top_level.txt

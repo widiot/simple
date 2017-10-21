@@ -1,11 +1,18 @@
 from flask import Flask
-from config import config
+from flask_sqlalchemy import SQLAlchemy
+from .config import config
+
+# 创建插件对象
+db = SQLAlchemy()
 
 
-def create_app(config_name=None):
-    # 创建app并配置
+def create_app(config_name):
+    # 创建app并导入配置
     app = Flask(__name__)
-    app.config.from_object(config[config_name or 'development'])
+    app.config.from_object(config[config_name])
+
+    # 初始化插件对象
+    db.init_app(app)
 
     # 注册蓝图
     from .main import main as main_blueprint
@@ -16,6 +23,3 @@ def create_app(config_name=None):
     app.register_blueprint(api_1_0_blueprint, url_prefix='/api/v1_0')
 
     return app
-
-
-app = create_app()
