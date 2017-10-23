@@ -7,16 +7,18 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///database-dev.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////database-deve.db'
 
 
 class TestingConfig(Config):
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////database-test.db'
 
 
 class ProductConfig(Config):
     DEBUG = False
     TESTING = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////database-prod.db'
 
 
 config = {

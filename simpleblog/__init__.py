@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from .config import config
 
 # 创建插件对象
 db = SQLAlchemy()
+migrate = Migrate()
 
 
 def create_app(config_name):
@@ -13,6 +15,7 @@ def create_app(config_name):
 
     # 初始化插件对象
     db.init_app(app)
+    migrate.init_app(app, db)
 
     # 注册蓝图
     from .main import main as main_blueprint
