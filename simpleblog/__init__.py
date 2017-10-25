@@ -1,11 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_bcrypt import Bcrypt
 from .config import config
 
 # 创建插件对象
 db = SQLAlchemy()
 migrate = Migrate()
+bcrypt = Bcrypt()
 
 
 def create_app(config_name):
@@ -16,6 +18,7 @@ def create_app(config_name):
     # 初始化插件对象
     db.init_app(app)
     migrate.init_app(app, db)
+    bcrypt.init_app(app)
 
     # 注册蓝图
     from .main import main as main_blueprint

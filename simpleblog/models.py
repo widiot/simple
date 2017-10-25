@@ -1,12 +1,13 @@
-from . import db
+from . import db, bcrypt
 
 
+# 用户表
 class User(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    username = db.Column(db.String(), unique=True)
-    password = db.Column(db.String())
-    email = db.Column(db.String(), unique=True)
-    avatar = db.Column(db.String(), unique=True)
+    username = db.Column(db.String())
+    password_hash = db.Column(db.String())
+    email = db.Column(db.String())
+    avatar = db.Column(db.String())
     introduction = db.Column(db.text())
     register_date = db.Column(db.DateTime())
     categories = db.relationship(
@@ -18,9 +19,9 @@ class User(db.Model):
         'Post', backref='user', lazy='dynamic', cascade='all,delete-orphan')
     comments = db.relationship(
         'Comment', backref='user', lazy='dynamic', cascade='all,delete-orphan')
-    favorites = db.relationship(
-        'Favorite',
-        foreign_keys=[Favorite.post_id],
+    staring = db.relationship(
+        'Star',
+        foreign_keys=[Star.post_id],
         backref=db.backref('user', lazy='dynamic'),
         lazy='dynamic',
         cascade='all,delete-orphan')
@@ -37,25 +38,37 @@ class User(db.Model):
         lazy='dynamic',
         cascade='all,delete-orphan')
 
+    # 将密码转为Hash值存储
+    def set_password(self, password):
+        self.password_hash = bcrypt.generate_password_hash(password)
 
+    # 检查明文密码的Hash值是否匹配
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password_hash, password)
+
+
+# 博客类别表
 class Category(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String())
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
 
-class Favorite(db.Model):
+# 博客关注表
+class Star(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     post_id = db.Column(db.Integer(), db.ForeignKey('post.id'))
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
 
+# 用户关注表
 class Follow(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     follower_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     following_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
 
+# 博客表
 class Post(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String())
@@ -72,18 +85,25 @@ class Post(db.Model):
         backref=db.backref('post', lazy='dynamic'),
         lazy='dynamic',
         cascade='all,delete-orphan')
+    starer = db.relationship(
+        'Star',
+        foreign_keys=[Star.user_id],
+        backref=db.backref('post', lazy='dynamic'),
+        lazy='dynamic',
+        cascade='all,delete-orphan')
 
 
+# 博客标签表
 class Tag(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String())
     post_id = db.Column(db.Integer(), db.ForeignKey('post.id'))
 
 
+# 评论
 class Comment(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     text = db.Column(db.Text())
     date = db.Column(db.DateTime())
-    stars = db.Column(db.Integer())
     post_id = db.Column(db.Integer(), db.ForeignKey('post.id'))
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
