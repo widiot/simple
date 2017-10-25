@@ -10,32 +10,32 @@ class User(db.Model):
     introduction = db.Column(db.text())
     register_date = db.Column(db.DateTime())
     categories = db.relationship(
-            'Category',
-            backref='user',
-            lazy='dynamic',
-            cascade='all,delete-orphan')
+        'Category',
+        backref='user',
+        lazy='dynamic',
+        cascade='all,delete-orphan')
     posts = db.relaionship(
-            'Post', backref='user', lazy='dynamic', cascade='all,delete-orphan')
+        'Post', backref='user', lazy='dynamic', cascade='all,delete-orphan')
     comments = db.relationship(
-            'Comment', backref='user', lazy='dynamic', cascade='all,delete-orphan')
+        'Comment', backref='user', lazy='dynamic', cascade='all,delete-orphan')
     favorites = db.relationship(
-            'Favorite',
-            foreign_keys=[Favorite.post_id],
-            backref=db.backref('user', lazy='dynamic'),
-            lazy='dynamic',
-            cascade='all,delete-orphan')
+        'Favorite',
+        foreign_keys=[Favorite.post_id],
+        backref=db.backref('user', lazy='dynamic'),
+        lazy='dynamic',
+        cascade='all,delete-orphan')
     followers = db.relationship(
-            'Follow',
-            foreign_keys=[Follow.following_id],
-            backref=db.backref('following', lazy='dynamic'),
-            lazy='dynamic',
-            cascade='all,delete-orphan')
+        'Follow',
+        foreign_keys=[Follow.following_id],
+        backref=db.backref('following', lazy='dynamic'),
+        lazy='dynamic',
+        cascade='all,delete-orphan')
     following = db.relationship(
-            'Follow',
-            foreign_keys=[Follow.follower_id],
-            backref=db.backref('follower', lazy='dynamic'),
-            lazy='dynamic',
-            cascade='all,delete-orphan')
+        'Follow',
+        foreign_keys=[Follow.follower_id],
+        backref=db.backref('follower', lazy='dynamic'),
+        lazy='dynamic',
+        cascade='all,delete-orphan')
 
 
 class Category(db.Model):
@@ -65,27 +65,19 @@ class Post(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
     comments = db.relationship(
-            'Comment',
-            backref='post',
-            lazy='dynamic',
-            cascade='all,delete-orphan')
+        'Comment', backref='post', lazy='dynamic', cascade='all,delete-orphan')
     tags = db.relationship(
-            'Tag',
-            secondary=True,
-            backref=db.backref('post', lazy='dynamic'),
-            lazy='dynamic',
-            cascade='all,delete-orphan')
+        'Tag',
+        foreign_keys=[Tag.post_id],
+        backref=db.backref('post', lazy='dynamic'),
+        lazy='dynamic',
+        cascade='all,delete-orphan')
 
 
 class Tag(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String())
-
-
-tags = db.Table(
-        'post_tags',
-        db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
-        db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')))
+    post_id = db.Column(db.Integer(), db.ForeignKey('post.id'))
 
 
 class Comment(db.Model):
