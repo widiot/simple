@@ -6,9 +6,14 @@ from ..models import User
 
 # 用户注册的表单
 class RegisterForm(Form):
-    email = StringField('邮箱', validators=[DataRequired(), Length(1, 64), Email()])
+    email = StringField(
+        '邮箱', validators=[DataRequired(),
+                          Length(1, 64),
+                          Email()])
     password = PasswordField('密码', validators=[DataRequired(), Length(min=8)])
-    confirm = PasswordField('确认密码', validators=[DataRequired(), EqualTo('password')])
+    confirm = PasswordField(
+        '确认密码', validators=[DataRequired(),
+                            EqualTo('password')])
 
     def validate(self):
         check_validate = super(RegisterForm, self).validate()
@@ -28,7 +33,10 @@ class RegisterForm(Form):
 
 # 用户登录的表单
 class LoginForm(Form):
-    email = StringField('邮箱', validators=[DataRequired(), Length(1, 64), Email()])
+    email = StringField(
+        '邮箱', validators=[DataRequired(),
+                          Length(1, 64),
+                          Email()])
     password = PasswordField('密码', validators=[DataRequired()])
     remember_me = BooleanField('记住我')
 

@@ -1,12 +1,13 @@
-from . import db, bcrypt
+from flask_login import AnonymousUserMixin
+from . import db, bcrypt, login_manager
 
 
 # 用户表
 class User(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    username = db.Column(db.String())
+    username = db.Column(db.String(), unique=True)
     password_hash = db.Column(db.String())
-    email = db.Column(db.String())
+    email = db.Column(db.String(), unique=True)
     avatar = db.Column(db.String())
     introduction = db.Column(db.text())
     register_date = db.Column(db.DateTime())
@@ -45,6 +46,29 @@ class User(db.Model):
     # 检查明文密码的Hash值是否匹配
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
+
+    # Flask Login的四个相关方法
+    def is_authenticated(self):
+        if isinstance(self, AnonymousUserMixin):
+            return False
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        if isinstance(self, AnonymousUserMixin):
+            return True
+        return False
+
+    def get_id(self):
+        return self.id
+
+
+# FlaskLogin用user_loader通过id获取用户
+@login_manager.user_loader
+def load_user(userid):
+    return User.query.get(userid)
 
 
 # 博客类别表

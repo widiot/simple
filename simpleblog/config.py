@@ -9,18 +9,21 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(rootdir, 'database-deve.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
+        rootdir, 'database-deve.db')
 
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(rootdir, 'database-test.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
+        rootdir, 'database-test.db')
 
 
 class ProductConfig(Config):
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(rootdir, 'database-prod.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
+        rootdir, 'database-prod.db')
 
 
 config = {
