@@ -22,7 +22,7 @@ class RegisterForm(Form):
         if not check_validate:
             return False
 
-        # 检查邮箱是否存在
+        # 检查邮箱是否已经存在
         user = User.query.filter_by(email=self.email.data).first()
         if user:
             self.email.errors('该邮箱已注册')

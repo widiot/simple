@@ -7,6 +7,23 @@ from ..models import User
 from .. import db
 
 
+@auth.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user = User()
+        user.email = form.email.data
+        user.set_password(form.password.data)
+        user.username = form.email.data
+        user.avatar = 'default.jpg'
+        user.register_date = datetime.datetime.now()
+
+        db.session.add(user)
+        db.session.commit()
+
+    return redirect(url_for())
+
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -24,20 +41,3 @@ def logout():
     logout_user()
     flash('成功退出登录')
     return redirect(url_for('auth.login'))
-
-
-@auth.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        user = User()
-        user.email = form.email.data
-        user.set_password(form.password.data)
-        user.username = form.email.data
-        user.avatar = 'default.jpg'
-        user.register_date = datetime.datetime.now()
-
-        db.session.add(user)
-        db.session.commit()
-
-    return '成功注册'
