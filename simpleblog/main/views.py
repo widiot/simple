@@ -1,6 +1,7 @@
+from flask import render_template, url_for
 from . import main
 
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    return 'index page'
+    return render_template('index.html', current_user=None)

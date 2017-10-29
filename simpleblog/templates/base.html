@@ -1,0 +1,69 @@
+{% extends "bootstrap/base.html" %}
+
+{# 收藏夹图标 #}
+{% block styles %}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon">
+{% endblock %}
+
+{# 网页标题 #}
+{% block title %}Simple Blog{% endblock %}
+
+{# 导航条 #}
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            {# 品牌和切换被分组以获得更好的移动显示 #}
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">Simple</a>
+            </div>
+
+            {# 收集导航链接，表单和其他内容进行切换 #}
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                    <li><a href="#">关注</a></li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="搜索">
+                    </div>
+                    <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user is not none %}
+                        <li><a href="#">消息</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">我的</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">我的主页</a></li>
+                                <li><a href="#">设置</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">退出</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li><a href="#">登录</a></li>
+                        <li><a href="#">注册</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% block page_content %}{% endblock %}
+    </div>
+{% endblock %}
