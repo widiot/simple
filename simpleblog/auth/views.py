@@ -26,6 +26,7 @@ def logout():
     flash('成功退出登录')
 
 
+# 注册新用户
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -42,7 +43,7 @@ def register():
 
         token = user.generate_confirmation_token()
         send_email(
-            user.email, '确认你的邮箱', 'auth/email/confirm', user=user, token=token)
+            user.email, '认证你的邮箱', 'auth/email/confirm', user=user, token=token)
 
         flash('验证邮件已发送，请登录你的邮箱确认')
         return redirect(url_for('auth.login'))
@@ -66,10 +67,10 @@ def confirm(token):
     return redirect(url_for('main.index'))
 
 
-# 过滤已经登录但是还未认证，请求的端点不在auth中的用户
+# 过滤已经登录但是还未认证，请求的端点也不在auth中的用户
 @auth.before_app_request
 def before_request():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         # 在每次请求前刷新上次访问时间
         current_user.ping()
 
@@ -80,9 +81,24 @@ def before_request():
             return redirect(url_for('auth.unconfirmed'))
 
 
-# 如果是默认用户或者已经认证，则重定向到主页，否则到无权限页面
+# 如果是匿名用户或者已认证用户访问，则重定向到主页，否则到无权限页面
 @auth.route('/unconfirmed')
 def unconfirmed():
     if current_user.is_anonymous() or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
+
+
+# 重新发送认证邮件
+@auth.route('/confirm')
+@login_required
+def resend_confirmation():
+    token = current_user.generate_confirmation_token()
+    send_email(
+        current_user.email,
+        '认证你的邮箱',
+        'auth/email/confirm',
+        user=current_user,
+        token=token)
+    flash('新的认证邮件已经发送到你的邮箱')
+    return redirect(url_for('main.index'))
