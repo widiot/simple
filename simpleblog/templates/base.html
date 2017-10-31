@@ -8,11 +8,11 @@
 {% endblock %}
 
 {# 网页标题 #}
-{% block title %}Simple Blog{% endblock %}
+{% block title %}Simple{% endblock %}
 
 {# 导航条 #}
 {% block navbar %}
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-static-top">
         <div class="container-fluid">
             {# 品牌和切换被分组以获得更好的移动显示 #}
             <div class="navbar-header">
@@ -31,7 +31,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('main.index') }}">首页</a></li>
-                    <li><a href="#">关注</a></li>
+                    {% if current_user is not none %}
+                        <li><a href="#">关注</a></li>
+                    {% endif %}
                 </ul>
                 <form class="navbar-form navbar-left">
                     <div class="form-group">
@@ -54,7 +56,7 @@
                         </li>
                     {% else %}
                         <li><a href="#">登录</a></li>
-                        <li><a href="#">注册</a></li>
+                        <li><a href="{{ url_for('auth.register') }}">注册</a></li>
                     {% endif %}
                 </ul>
             </div>

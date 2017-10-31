@@ -1,38 +1,33 @@
-from flask_wtf import Form
-from wtforms import StringField, PasswordField, BooleanField
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import ValidationError
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from ..models import User
 
 
 # 用户注册的表单
-class RegisterForm(Form):
+class RegisterForm(FlaskForm):
     email = StringField(
         '邮箱', validators=[DataRequired(),
                           Length(1, 64),
                           Email()])
-    password = PasswordField('密码', validators=[DataRequired(), Length(min=8)])
-    confirm = PasswordField(
-        '确认密码', validators=[DataRequired(),
-                            EqualTo('password')])
+    password = PasswordField(
+        '密码', validators=[DataRequired(),
+                          Length(min=6, message='密码长度至少6位')])
+    repeat = PasswordField(
+        '确认密码',
+        validators=[DataRequired(),
+                    EqualTo('password', message='密码不匹配')])
+    submit = SubmitField('注册Simple')
 
-    def validate(self):
-        check_validate = super(RegisterForm, self).validate()
-
-        # 表单合法性验证
-        if not check_validate:
-            return False
-
-        # 检查邮箱是否已经存在
-        user = User.query.filter_by(email=self.email.data).first()
-        if user:
-            self.email.errors('该邮箱已注册')
-            return False
-
-        return True
+    # 检查邮箱是否已经存在
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('该邮箱已注册')
 
 
 # 用户登录的表单
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     email = StringField(
         '邮箱', validators=[DataRequired(),
                           Length(1, 64),

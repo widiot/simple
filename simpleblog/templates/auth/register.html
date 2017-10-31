@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <h1 class="text-center">Simple</h1>
+            <p class="text-center">简单是一种人生态度</p><br>
+            <ul class="nav nav-tabs nav-justified">
+                <li role="presentation"><a href="#">登录</a></li>
+                <li role="presentation" class="active"><a href="auth.register">注册</a></li>
+            </ul>
+            <br>
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+{% endblock %}

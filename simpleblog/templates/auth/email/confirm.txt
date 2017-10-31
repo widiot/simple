@@ -1,0 +1,5 @@
+欢迎注册Simple
+
+认证邮箱请点击下面的链接：
+
+{{ url_for('auth.confirm',token=token,_external=True) }}

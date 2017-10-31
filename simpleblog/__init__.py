@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_mail import Mail
 from .config import config
 
 # 创建插件对象
@@ -12,6 +13,7 @@ migrate = Migrate()
 bcrypt = Bcrypt()
 bootstrap = Bootstrap()
 login_manager = LoginManager()
+mail = Mail()
 login_manager.login_view = 'auth.login'
 login_manager.session_protection = 'strong'
 
@@ -26,6 +28,7 @@ def create_app(config_name):
     migrate.init_app(app, db)
     bcrypt.init_app(app)
     bootstrap.init_app(app)
+    mail.init_app(app)
     login_manager.init_app(app)
 
     # 注册蓝图

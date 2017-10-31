@@ -1,4 +1,6 @@
-from flask_login import AnonymousUserMixin
+from flask import current_app
+from flask_login import AnonymousUserMixin, UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from . import db, bcrypt, login_manager
 
 
@@ -37,13 +39,13 @@ class Post(db.Model):
     tags = db.relationship(
         'Tag',
         foreign_keys=[Tag.post_id],
-        backref=db.backref('post', lazy='dynamic'),
+        backref=db.backref('post', lazy='joined'),
         lazy='dynamic',
         cascade='all,delete-orphan')
     starer = db.relationship(
         'Star',
-        foreign_keys=[Star.user_id],
-        backref=db.backref('post', lazy='dynamic'),
+        foreign_keys=[Star.post_id],
+        backref=db.backref('post', lazy='joined'),
         lazy='dynamic',
         cascade='all,delete-orphan')
 
@@ -65,7 +67,8 @@ class Follow(db.Model):
 
 
 # 用户表
-class User(db.Model):
+# UserMixin可以提供Flask-Login要求实现的四个方法
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(), unique=True)
     password_hash = db.Column(db.String())
@@ -73,6 +76,7 @@ class User(db.Model):
     avatar = db.Column(db.String())
     introduction = db.Column(db.Text())
     register_date = db.Column(db.DateTime())
+    confirmed = db.Column(db.Boolean, default=False)  # 邮箱是否验证
     categories = db.relationship(
         'Category',
         backref='user',
@@ -84,20 +88,20 @@ class User(db.Model):
         'Comment', backref='user', lazy='dynamic', cascade='all,delete-orphan')
     staring = db.relationship(
         'Star',
-        foreign_keys=[Star.post_id],
-        backref=db.backref('user', lazy='dynamic'),
+        foreign_keys=[Star.user_id],
+        backref=db.backref('user', lazy='joined'),
         lazy='dynamic',
         cascade='all,delete-orphan')
     followers = db.relationship(
         'Follow',
         foreign_keys=[Follow.following_id],
-        backref=db.backref('following', lazy='dynamic'),
+        backref=db.backref('following', lazy='joined'),
         lazy='dynamic',
         cascade='all,delete-orphan')
     following = db.relationship(
         'Follow',
         foreign_keys=[Follow.follower_id],
-        backref=db.backref('follower', lazy='dynamic'),
+        backref=db.backref('follower', lazy='joined'),
         lazy='dynamic',
         cascade='all,delete-orphan')
 
@@ -109,25 +113,25 @@ class User(db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
-    # Flask Login的四个相关方法
-    def is_authenticated(self):
-        if isinstance(self, AnonymousUserMixin):
+    # 生成验证令牌
+    def generate_confirmation_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'confirm': self.id})
+
+    # 验证令牌是否正确
+    def confirm(self, token):
+        s = Serializer(current_app['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
             return False
+        if data.get('confirm') != self.id:
+            return False
+        self.confirmed = True
         return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        if isinstance(self, AnonymousUserMixin):
-            return True
-        return False
-
-    def get_id(self):
-        return self.id
 
 
 # Flask Login用user_loader获取用户
 @login_manager.user_loader
-def load_user(userid):
-    return User.query.get(userid)
+def load_user(user_id):
+    return User.query.get(int(user_id))
