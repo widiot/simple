@@ -55,7 +55,7 @@
                             </ul>
                         </li>
                     {% else %}
-                        <li><a href="#">登录</a></li>
+                        <li><a href="{{ url_for('auth.login') }}">登录</a></li>
                         <li><a href="{{ url_for('auth.register') }}">注册</a></li>
                     {% endif %}
                 </ul>

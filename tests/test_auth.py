@@ -27,3 +27,5 @@ class AuthTestCase(unittest.TestCase):
                 'repeat': 'test'
             })
         self.assertEqual(response.status_code, 302)
+
+        # 用该用户登录

@@ -18,7 +18,8 @@ def login():
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main.index'))
         flash('账号或密码错误')
-    return render_template('auth/login.html', form=form)
+
+    return render_template('auth/login.html', current_user=None, form=form)
 
 
 # 退出

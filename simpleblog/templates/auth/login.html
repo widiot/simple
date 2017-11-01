@@ -7,8 +7,8 @@
             <h1 class="text-center">Simple</h1>
             <p class="text-center">简单是一种人生态度</p><br>
             <ul class="nav nav-tabs nav-justified">
-                <li role="presentation"><a href="{{ url_for('auth.login') }}">登录</a></li>
-                <li role="presentation" class="active"><a href="{{ url_for('auth.register') }}">注册</a></li>
+                <li role="presentation" class="active"><a href="{{ url_for('auth.login') }}">登录</a></li>
+                <li role="presentation"><a href="{{ url_for('auth.register') }}">注册</a></li>
             </ul>
             <br>
             {{ wtf.quick_form(form) }}

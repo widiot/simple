@@ -34,6 +34,7 @@ class LoginForm(FlaskForm):
                           Email()])
     password = PasswordField('密码', validators=[DataRequired()])
     remember_me = BooleanField('记住我')
+    submit = SubmitField('登录Simple')
 
     def validate(self):
         check_validate = super(LoginForm, self).validate()
