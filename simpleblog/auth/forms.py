@@ -13,7 +13,7 @@ class RegisterForm(FlaskForm):
                           Email()])
     password = PasswordField(
         '密码', validators=[DataRequired(),
-                          Length(min=6, message='密码长度至少6位')])
+                          Length(min=4, message='密码长度至少4位')])
     repeat = PasswordField(
         '确认密码',
         validators=[DataRequired(),

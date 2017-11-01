@@ -20,9 +20,12 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
+    WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
         root_dir, 'database-test.db')
-    WTF_CSRF_ENABLED = False
+
+    # raise RuntimeError('Application was not able to create a URL')
+    SERVER_NAME = 'localhost:5000'
 
 
 class ProductConfig(Config):

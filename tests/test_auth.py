@@ -8,8 +8,8 @@ class AuthTestCase(unittest.TestCase):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
         self.app_context.push()
-        self.client = self.app.test_client()
         db.create_all()
+        self.client = self.app.test_client()
 
     def tearDown(self):
         db.session.remove()
@@ -24,6 +24,6 @@ class AuthTestCase(unittest.TestCase):
             data={
                 'email': 'user@example.com',
                 'password': 'test',
-                'confirm': 'test'
+                'repeat': 'test'
             })
         self.assertEqual(response.status_code, 302)
