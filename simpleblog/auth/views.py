@@ -17,8 +17,7 @@ def login():
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main.index'))
-        flash('账号或密码错误')
-
+        flash('邮箱或密码错误')
     return render_template('auth/login.html', current_user=None, form=form)
 
 
@@ -34,23 +33,22 @@ def logout():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+        # 创建用户并提交到数据库
         user = User()
         user.email = form.email.data
         user.set_password(form.password.data)
         user.username = form.email.data
         user.avatar = 'default.jpg'
         user.register_date = datetime.datetime.now()
-
         db.session.add(user)
         db.session.commit()
 
+        # 发送验证邮件
         token = user.generate_confirmation_token()
         send_email(
             user.email, '认证你的邮箱', 'auth/email/confirm', user=user, token=token)
-
         flash('验证邮件已发送，请登录你的邮箱确认')
         return redirect(url_for('auth.login'))
-
     return render_template('auth/register.html', current_user=None, form=form)
 
 

@@ -11,7 +11,39 @@
                 <li role="presentation" class="active"><a href="{{ url_for('auth.register') }}">注册</a></li>
             </ul>
             <br>
-            {{ wtf.quick_form(form) }}
+            <form method="post" action="{{ url_for('auth.register') }}">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {% if form.email.errors %}
+                        {% for e in form.email.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.email(class_='form-control') }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}
+                    {% if form.password.errors %}
+                        {% for e in form.password.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.password(class_='form-control') }}
+                </div>
+                <div class="form-group">
+                    {{ form.repeat.label }}
+                    {% if form.repeat.errors %}
+                        {% for e in form.repeat.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.repeat(class_='form-control') }}
+                </div>
+                <div>
+                    {{ form.submit(class_='form-control btn-primary btn-block') }}
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}

@@ -29,3 +29,10 @@ class AuthTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
 
         # 用该用户登录
+        response = self.client.post(
+            url_for('auth.login'),
+            data={
+                'email': 'user@example.com',
+                'password': 'test'
+            })
+        self.assertIn('您还未认证', response.data)
