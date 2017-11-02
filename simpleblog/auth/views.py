@@ -25,7 +25,8 @@ def login():
 @auth.route('/logout', methods=['GET', 'POST'])
 def logout():
     logout_user()
-    flash('成功退出登录')
+    flash('你已经退出登录')
+    return redirect(url_for('main.index'))
 
 
 # 注册

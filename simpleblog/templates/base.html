@@ -66,6 +66,14 @@
 
 {% block content %}
     <div class="container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-info alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
         {% block page_content %}{% endblock %}
     </div>
 {% endblock %}

@@ -120,7 +120,7 @@ class User(UserMixin, db.Model):
 
     # 验证令牌是否正确
     def confirm(self, token):
-        s = Serializer(current_app['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
         except:

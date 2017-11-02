@@ -1,6 +1,7 @@
 import unittest
 from flask import url_for
 from simpleblog import create_app, db
+from simpleblog.models import User
 
 
 class AuthTestCase(unittest.TestCase):
@@ -35,3 +36,15 @@ class AuthTestCase(unittest.TestCase):
                   'password': '123456'},
             follow_redirects=True)
         self.assertIn('你现在还没有认证你的邮箱', response.get_data(as_text=True))
+
+        # 发送验证邮件
+        user = User.query.filter_by(email='user@example.com').first()
+        token = user.generate_confirmation_token()
+        response = self.client.get(
+            url_for('auth.confirm', token=token), follow_redirects=True)
+        self.assertIn('你的邮箱已经通过验证', response.get_data(as_text=True))
+
+        # 退出
+        response = self.client.get(
+            url_for('auth.logout'), follow_redirects=True)
+        self.assertIn('你已经退出登录', response.get_data(as_text=True))
