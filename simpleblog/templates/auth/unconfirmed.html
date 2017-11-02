@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>你好，{{ current_user.username }}！</h1>
+        <h3>你现在还没有认证你的邮箱</h3>
+        <p>在你访问这个网站之前，你需要去邮箱查看你的认证邮件</p>
+        <p>需要重新发送认证邮件？<a href="{{ url_for('auth.resend_confirmation') }}">点击这里</a></p>
+    </div>
+{% endblock %}

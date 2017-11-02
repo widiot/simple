@@ -13,7 +13,7 @@ class RegisterForm(FlaskForm):
                           Email()])
     password = PasswordField(
         '密码', validators=[DataRequired(),
-                          Length(min=4, message='密码长度至少4位')])
+                          Length(min=6, message='密码长度至少6位')])
     repeat = PasswordField(
         '确认密码',
         validators=[DataRequired(),
@@ -50,7 +50,7 @@ class LoginForm(FlaskForm):
             return False
 
         # 检查密码
-        if not self.user.check_password(self.password.data):
+        if not user.check_password(self.password.data):
             self.password.errors.append('密码错误')
             return False
 

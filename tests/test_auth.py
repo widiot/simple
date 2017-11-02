@@ -23,16 +23,15 @@ class AuthTestCase(unittest.TestCase):
             url_for('auth.register'),
             data={
                 'email': 'user@example.com',
-                'password': 'test',
-                'repeat': 'test'
+                'password': '123456',
+                'repeat': '123456'
             })
         self.assertEqual(response.status_code, 302)
 
         # 用该用户登录
         response = self.client.post(
             url_for('auth.login'),
-            data={
-                'email': 'user@example.com',
-                'password': 'test'
-            })
-        self.assertIn('您还未认证', response.data)
+            data={'email': 'user@example.com',
+                  'password': '123456'},
+            follow_redirects=True)
+        self.assertIn('你现在还没有认证你的邮箱', response.get_data(as_text=True))

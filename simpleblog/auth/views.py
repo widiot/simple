@@ -13,7 +13,7 @@ from .. import db
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).one()
+        user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main.index'))
@@ -73,9 +73,6 @@ def confirm(token):
 @auth.before_app_request
 def before_request():
     if current_user.is_authenticated:
-        # 在每次请求前刷新上次访问时间
-        current_user.ping()
-
         if not current_user.confirmed \
                 and request.endpoint \
                 and request.endpoint[:5] != 'auth.' \
@@ -84,13 +81,13 @@ def before_request():
             return redirect(url_for('auth.unconfirmed'))
 
 
-# 如果是匿名用户或者已认证用户访问，则重定向到主页，否则到无权限页面
+# 如果是匿名用户或者已认证用户，则重定向到主页，否则到无权限页面
 @auth.route('/unconfirmed')
 def unconfirmed():
-    if current_user.is_anonymous() or current_user.confirmed:
+    if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
 
-    return render_template('auth/unconfirmed.html')
+    return render_template('auth/unconfirmed.html', current_user=None)
 
 
 # 重新发送认证邮件
