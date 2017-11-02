@@ -67,7 +67,7 @@ class Follow(db.Model):
 
 
 # 用户表
-# UserMixin可以提供Flask-Login要求实现的四个方法
+# 继承UserMixin可以提供Flask-Login要求实现的四个方法，不过调用的时候好像不是方法，是bool属性
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(), unique=True)

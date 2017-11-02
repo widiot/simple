@@ -18,11 +18,12 @@ def login():
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main.index'))
         flash('邮箱或密码错误')
-    return render_template('auth/login.html', current_user=None, form=form)
+    return render_template('auth/login.html', form=form)
 
 
 # 退出
 @auth.route('/logout', methods=['GET', 'POST'])
+@login_required
 def logout():
     logout_user()
     flash('你已经退出登录')
@@ -50,7 +51,7 @@ def register():
             user.email, '认证你的邮箱', 'auth/email/confirm', user=user, token=token)
         flash('验证邮件已发送，请登录你的邮箱确认')
         return redirect(url_for('auth.login'))
-    return render_template('auth/register.html', current_user=None, form=form)
+    return render_template('auth/register.html', form=form)
 
 
 # 在邮件中点击的验证链接
@@ -88,7 +89,7 @@ def unconfirmed():
     if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
 
-    return render_template('auth/unconfirmed.html', current_user=None)
+    return render_template('auth/unconfirmed.html')
 
 
 # 重新发送认证邮件
