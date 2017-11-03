@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <style>
+        body {
+            position: relative;
+        }
+
+        td.text-muted {
+            font-size: 18px;
+        }
+
+        .table td {
+            vertical-align: middle !important;
+            padding: 25px !important;
+        }
+
+        .setting-radio {
+            margin-right: 30px;
+        }
+
+        #myScrollspy {
+            padding-top: 50px;
+        }
+    </style>
+{% endblock %}
+
+{# 必须把data-spy放在body才能实现滚动监听 #}
+{% block body_attribs %}
+    data-spy="scroll" data-target="#myScrollspy" data-offset="80"
+{% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        {# 导航栏 #}
+        <div class="col-md-2" id="myScrollspy">
+            <ul class="nav nav-pills nav-stacked" data-spy="affix">
+                <li class="active"><a href="#personal">个人信息</a></li>
+                <li><a href="#changePassword">修改密码</a></li>
+                <li><a href="#changeEmail">修改邮箱</a></li>
+                <li><a href="#message">邮件通知</a></li>
+            </ul>
+        </div>
+
+        {# 内容 #}
+        <div class="col-md-10">
+            <div id="personal">
+                <table class="table">
+                    <caption><h2>个人信息</h2></caption>
+                    <tbody>
+                    {# 第一个需要用col-md，后面只需要加上row #}
+                    <tr class="row">
+                        <td class="col-md-2"><img src="{{ url_for('static',filename=current_user.avatar) }}"
+                                                  class="img-circle"
+                                                  height="72"
+                                                  width="72">
+                        </td>
+                        <td class="col-md-10">
+                            <div>
+                                <p class="text-muted">支持 jpg、png 格式大小 5M 以内的图片</p>
+                                <button type="button" class="btn btn-primary">更改头像</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td class="text-muted">昵称</td>
+                        <td>
+                            <form role="form">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="填写你的昵称"
+                                           value="{{ current_user.username|default('',True) }}">
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="修改">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td class="text-muted">简介</td>
+                        <td>
+                            <form role="form">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3"
+                                              placeholder="填写你的个人简介">{{ current_user.introduction|default('',True) }}</textarea>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="修改">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td class="text-muted">注册时间</td>
+                        <td class="text-muted">{{ current_user.register_date }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="changePassword">
+                <form role="form">
+                    <table class="table">
+                        <caption><h2>修改密码</h2></caption>
+                        <tbody>
+                        <tr class="row">
+                            <td class="col-md-2 text-muted">
+                                原密码
+                            </td>
+                            <td class="col-md-10">
+                                <input type="password" class="form-control" placeholder="输入原密码">
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="text-muted">
+                                新密码
+                            </td>
+                            <td>
+                                <input type="password" class="form-control" placeholder="输入新密码">
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="text-muted">
+                                确认密码
+                            </td>
+                            <td>
+                                <input type="password" class="form-control" placeholder="确认新密码">
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td></td>
+                            <td><input type="submit" class="btn btn-primary" value="确认"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
+            <div id="changeEmail">
+                <form role="form">
+                    <table class="table">
+                        <caption><h2>修改邮箱</h2></caption>
+                        <tbody>
+                        <tr class="row">
+                            <td class="col-md-2 text-muted">新邮箱</td>
+                            <td class="col-md-10"><input type="email" class="form-control" placeholder="输入新邮箱"></td>
+                        </tr>
+                        <tr class="row">
+                            <td class="text-muted">密码</td>
+                            <td><input type="password" class="form-control" placeholder="输入原账号密码"></td>
+                        </tr>
+                        <tr class="row">
+                            <td></td>
+                            <td><input type="submit" class="btn btn-primary" value="确认"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
+            <div id="message">
+                <form role="form">
+                    <table class="table">
+                        <caption><h2>邮件通知</h2></caption>
+                        <tbody>
+                        <tr class="row">
+                            <td class="col-md-2 text-muted">每周精选</td>
+                            <td class="col-md-10">
+                                <div class="radio">
+                                    <label class="setting-radio">
+                                        <input type="radio" name="weeklySelection" value="yes" checked>开启
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="weeklySelection" value="no">关闭
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="text-muted">关注提醒</td>
+                            <td>
+                                <div class="radio">
+                                    <label class="setting-radio">
+                                        <input type="radio" name="followNotice" value="yes" checked>开启
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="followNotice" value="no">关闭
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="text-muted">喜欢提醒</td>
+                            <td>
+                                <div class="radio">
+                                    <label class="setting-radio">
+                                        <input type="radio" name="starNotice" value="yes" checked>开启
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="starNotice" value="no">关闭
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="text-muted">评价提醒</td>
+                            <td>
+                                <div class="radio">
+                                    <label class="setting-radio">
+                                        <input type="radio" name="evaluateNotice" value="yes" checked>开启
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="evaluateNotice" value="no">关闭
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td></td>
+                            <td>
+                                <input type="submit" class="btn btn-primary" value="确认">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

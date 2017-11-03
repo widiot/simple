@@ -106,3 +106,10 @@ def resend_confirmation():
     flash('新的认证邮件已经发送到你的邮箱')
 
     return redirect(url_for('main.index'))
+
+
+# 设置
+@auth.route('/settings')
+@login_required
+def settings():
+    return render_template('auth/settings.html')
