@@ -130,6 +130,25 @@ class User(UserMixin, db.Model):
         self.confirmed = True
         return True
 
+    # 生成重置密码的令牌
+    def generate_reset_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'reset': self.id})
+
+    # 重置密码
+    def reset_password(self, token, password):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('reset') != self.id:
+            return False
+        self.set_password(password)
+        db.session().add(self)
+        db.session().commit()
+        return True
+
 
 # Flask Login用user_loader获取用户
 @login_manager.user_loader

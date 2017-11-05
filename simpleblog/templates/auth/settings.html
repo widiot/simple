@@ -52,7 +52,7 @@
                     <tbody>
                     {# 第一个需要用col-md，后面只需要加上row #}
                     <tr class="row">
-                        <td class="col-md-3"><img src="{{ url_for('static',filename=current_user.avatar) }}"
+                        <td class="col-md-3"><img src="{{ url_for('static',filename='images/'+current_user.avatar) }}"
                                                   class="img-circle"
                                                   height="72"
                                                   width="72">
@@ -129,7 +129,7 @@
                         <tr class="row">
                             <td></td>
                             <td>
-                                {{ macros.form_item(change_password_form.submit,class='btn btn-primary') }}
+                                {{ change_password_form.submit(class='btn btn-primary') }}
                             </td>
                         </tr>
                         </tbody>

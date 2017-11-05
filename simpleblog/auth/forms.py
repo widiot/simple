@@ -10,9 +10,11 @@ from ..models import User
 class RegisterForm(FlaskForm):
     email = StringField(
         '邮箱',
-        validators=[DataRequired(message='该行不能为空'),
-                    Length(1, 64),
-                    Email()])
+        validators=[
+            DataRequired(message='该行不能为空'),
+            Length(1, 64),
+            Email(message='必须是Email')
+        ])
     password = PasswordField(
         '密码',
         validators=[
@@ -37,9 +39,11 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField(
         '邮箱',
-        validators=[DataRequired(message='该行不能为空'),
-                    Length(1, 64),
-                    Email()])
+        validators=[
+            DataRequired(message='该行不能为空'),
+            Length(1, 64),
+            Email(message='必须是Email')
+        ])
     password = PasswordField('密码', validators=[DataRequired(message='该行不能为空')])
     remember_me = BooleanField('记住我')
     submit = SubmitField('登录Simple')
@@ -83,6 +87,53 @@ class ChangePasswordForm(FlaskForm):
         ])
     submit = SubmitField('确认修改')
 
+    # 验证原密码是否正确
     def validate_old_password(self, field):
         if not current_user.check_password(field.data):
             raise ValidationError('原密码错误')
+
+
+# 重置密码时发送认证邮件的表单
+class SendVerification(FlaskForm):
+    email = StringField(
+        '邮箱',
+        validators=[
+            DataRequired(message='该行不能为空'),
+            Length(1, 64),
+            Email(message='必须是Email')
+        ])
+    submit = SubmitField('发送')
+
+    # 检查邮箱是否存在
+    def validate_email(self, field):
+        if not User.query.filter_by(email=field.data).first():
+            raise ValidationError('该邮箱未注册')
+
+
+# 重置密码
+class ResetPasswordForm(FlaskForm):
+    email = StringField(
+        '邮箱',
+        validators=[
+            DataRequired(message='该行不能为空'),
+            Length(1, 64),
+            Email(message='必须是Email')
+        ])
+    password = PasswordField(
+        '密码',
+        validators=[
+            DataRequired(message='该行不能为空'),
+            Length(min=6, message='密码长度至少6位')
+        ])
+    repeat = PasswordField(
+        '确认密码',
+        validators=[
+            DataRequired(message='该行不能为空'),
+            EqualTo('password', message='密码不匹配')
+        ])
+    submit = SubmitField('确认重置')
+
+    # 检查邮箱是否存在
+    def validate_email(self, field):
+        if not User.query.filter_by(email=field.data).first():
+            raise ValidationError('该邮箱未注册')

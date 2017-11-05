@@ -17,7 +17,7 @@ class AuthTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    # 测试注册和登录
+    # 注册和登录
     def test_register_and_login(self):
         # 注册一个用户
         response = self.client.post(
@@ -26,8 +26,9 @@ class AuthTestCase(unittest.TestCase):
                 'email': 'user@example.com',
                 'password': '123456',
                 'repeat': '123456'
-            })
-        self.assertEqual(response.status_code, 302)
+            },
+            follow_redirects=True)
+        self.assertIn('验证邮件已发送，请登录你的邮箱确认', response.get_data(as_text=True))
 
         # 用该用户登录
         response = self.client.post(
@@ -37,7 +38,7 @@ class AuthTestCase(unittest.TestCase):
             follow_redirects=True)
         self.assertIn('你现在还没有认证你的邮箱', response.get_data(as_text=True))
 
-        # 发送验证邮件
+        # 验证邮箱
         user = User.query.filter_by(email='user@example.com').first()
         token = user.generate_confirmation_token()
         response = self.client.get(
@@ -49,9 +50,8 @@ class AuthTestCase(unittest.TestCase):
             url_for('auth.logout'), follow_redirects=True)
         self.assertIn('你已经退出登录', response.get_data(as_text=True))
 
-    # 测试个人设置
-    def test_settings(self):
-        # 插入一个用户
+    # 插入一个用户
+    def insert_user(self):
         user = User()
         user.email = 'user@example.com'
         user.username = 'test'
@@ -60,9 +60,47 @@ class AuthTestCase(unittest.TestCase):
         user.confirmed = True
         db.session.add(user)
         db.session.commit()
+        return user
+
+    # 重置密码
+    def test_reset_password(self):
+        user = self.insert_user()
+
+        # 发送认证邮件
+        response = self.client.post(
+            url_for('auth.send_verification'),
+            data={'email': 'user@example.com'},
+            follow_redirects=True)
+        self.assertIn('认证邮件已经发送，请登录你的邮箱进行确认', response.get_data(as_text=True))
+
+        # 重置密码
+        token = user.generate_reset_token()
+        response = self.client.post(
+            url_for('auth.reset_password', token='false token'),
+            data={
+                'email': 'user@example.com',
+                'password': '654321',
+                'repeat': '654321'
+            },
+            follow_redirects=True)
+        self.assertIn('令牌错误或过期，请重新发送验证邮件', response.get_data(as_text=True))
+
+        response = self.client.post(
+            url_for('auth.reset_password', token=token),
+            data={
+                'email': 'user@example.com',
+                'password': '654321',
+                'repeat': '654321'
+            },
+            follow_redirects=True)
+        self.assertIn('密码重置成功，请用新密码登录', response.get_data(as_text=True))
+
+    # 个人设置
+    def test_settings(self):
+        self.insert_user()
 
         # 登录
-        response = response = self.client.post(
+        response = self.client.post(
             url_for('auth.login'),
             data={'email': 'user@example.com',
                   'password': '123456'},

@@ -1,9 +1,8 @@
 import datetime
-from urllib import parse
 from flask import redirect, url_for, flash, render_template, request, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from .forms import LoginForm, RegisterForm, ChangePasswordForm
+from .forms import LoginForm, RegisterForm, ChangePasswordForm, ResetPasswordForm, SendVerification
 from ..models import User
 from ..email import send_email
 from .. import db
@@ -18,7 +17,8 @@ def login():
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('main.index'))
-        flash('邮箱或密码错误')
+        else:
+            flash('邮箱或密码错误')
     return render_template('auth/login.html', form=form)
 
 
@@ -108,6 +108,48 @@ def resend_confirmation():
     return redirect(url_for('main.index'))
 
 
+# 重置密码时发送认证邮件
+@auth.route('/send-verification', methods=['GET', 'POST'])
+def send_verification():
+    if not current_user.is_anonymous:
+        return redirect(url_for('main.index'))
+
+    form = SendVerification()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        token = user.generate_reset_token()
+        send_email(
+            user.email,
+            'Reset Your Password',
+            'auth/email/reset_password',
+            user=user,
+            token=token,
+            next=request.args.get('next'))
+        flash('认证邮件已经发送，请登录你的邮箱进行确认')
+        return redirect(url_for('auth.login'))
+    return render_template(
+        'auth/reset_password.html', send_verification_form=form)
+
+
+# 重置密码
+@auth.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if not current_user.is_anonymous:
+        return redirect(url_for('main.index'))
+
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user.reset_password(token, form.password.data):
+            flash('密码重置成功，请用新密码登录')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('令牌错误或过期，请重新发送验证邮件')
+            return redirect(url_for('auth.login'))
+    return render_template(
+        'auth/reset_password.html', reset_password_form=form)
+
+
 # 设置
 @auth.route('/settings')
 @login_required
@@ -135,6 +177,7 @@ def settings_option(option):
             db.session.commit()
             flash('密码更改成功')
             return redirect(url_for('auth.settings'))
-        flash('密码更改失败')
+        else:
+            flash('密码更改失败')
         return render_template('auth/settings.html', change_password_form=form)
     return redirect(url_for('auth.settings'))

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% import "include/macros.html" as macros %}
 
 {% block page_content %}
@@ -15,10 +14,12 @@
             <form method="post" action="{{ url_for('auth.register') }}">
                 {{ form.hidden_tag() }}
                 {{ macros.form_item(form.email,placeholder='邮箱') }}
+                <br>
                 {{ macros.form_item(form.password,placeholder='密码') }}
+                <br>
                 {{ macros.form_item(form.repeat,placeholder='确认密码') }}
                 <br>
-                {{ macros.form_item(form.submit,class='form-control btn-primary btn-block') }}
+                {{ form.submit(class='form-control btn-primary btn-block') }}
             </form>
         </div>
     </div>

@@ -3,8 +3,8 @@
 {# 收藏夹图标 #}
 {% block styles %}
     {{ super() }}
-    <link rel="shortcut icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon">
-    <link rel="icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static',filename='images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static',filename='images/favicon.ico') }}" type="image/x-icon">
 {% endblock %}
 
 {# 网页标题 #}
@@ -68,7 +68,7 @@
     {# 70px是为了防止导航栏挡住下面的内容 #}
     <div class="container" style="padding-top:70px">
         {% for message in get_flashed_messages() %}
-            <div class="alert alert-info" role="alert">
+            <div class="alert alert-info text-center" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
