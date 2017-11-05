@@ -137,3 +137,35 @@ class ResetPasswordForm(FlaskForm):
     def validate_email(self, field):
         if not User.query.filter_by(email=field.data).first():
             raise ValidationError('该邮箱未注册')
+
+
+# 更改邮箱
+class ChangeEmailForm(FlaskForm):
+    email = StringField(
+        '邮箱',
+        validators=[
+            DataRequired(message='该行不能为空'),
+            Length(1, 64),
+            Email(message='必须是Email')
+        ])
+    password = PasswordField(
+        '密码', validators=[
+            DataRequired(message='该行不能为空'),
+        ])
+    submit = SubmitField('确认更改')
+
+    # 验证邮箱是否已经存在，以及密码是否正确
+    def validate(self):
+        check_validate = super(ChangeEmailForm, self).validate()
+
+        if not check_validate:
+            return False
+
+        user = User.query.filter_by(email=self.email.data).first()
+        if user:
+            self.email.errors.append('该邮箱已注册')
+            return False
+
+        if not user.check_password(self.password.data):
+            self.password.errors.append('密码错误')
+            return False
