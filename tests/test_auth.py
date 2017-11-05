@@ -48,3 +48,45 @@ class AuthTestCase(unittest.TestCase):
         response = self.client.get(
             url_for('auth.logout'), follow_redirects=True)
         self.assertIn('你已经退出登录', response.get_data(as_text=True))
+
+    # 测试个人设置
+    def test_settings(self):
+        # 插入一个用户
+        user = User()
+        user.email = 'user@example.com'
+        user.username = 'test'
+        user.avatar = 'default.jpg'
+        user.set_password('123456')
+        user.confirmed = True
+        db.session.add(user)
+        db.session.commit()
+
+        # 登录
+        response = response = self.client.post(
+            url_for('auth.login'),
+            data={'email': 'user@example.com',
+                  'password': '123456'},
+            follow_redirects=True)
+        self.assertIn('Hello', response.get_data(as_text=True))
+
+        # 更改密码
+        response = self.client.post(
+            url_for('auth.settings_option', option='change-password'),
+            data={
+                'old_password': '123456',
+                'password': '654321',
+                'repeat': '654321'
+            },
+            follow_redirects=True)
+        self.assertIn('密码更改成功', response.get_data(as_text=True))
+
+        response = self.client.post(
+            url_for('auth.settings_option', option='change-password'),
+            data={
+                'old_password': '123456',
+                'password': '654321',
+                'repeat': '654321'
+            },
+            follow_redirects=True)
+        self.assertIn('密码更改失败', response.get_data(as_text=True))
+        self.assertIn('原密码错误', response.get_data(as_text=True))

@@ -81,7 +81,7 @@ class ChangePasswordForm(FlaskForm):
             DataRequired(message='该行不能为空'),
             EqualTo('password', message='密码不匹配')
         ])
-    submit = SubmitField('确认')
+    submit = SubmitField('确认修改')
 
     def validate_old_password(self, field):
         if not current_user.check_password(field.data):
