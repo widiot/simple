@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "include/macros.html" as macros %}
 
 {% block page_content %}
     <div class="row">
@@ -13,36 +14,10 @@
             <br>
             <form method="post" action="{{ url_for('auth.register') }}">
                 {{ form.hidden_tag() }}
-                <div class="form-group">
-                    {{ form.email.label }}
-                    {{ form.email(class_='form-control') }}
-                    {% if form.email.errors %}
-                        {% for e in form.email.errors %}
-                            <p class="help-block">{{ e }}</p>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.password.label }}
-                    {{ form.password(class_='form-control') }}
-                    {% if form.password.errors %}
-                        {% for e in form.password.errors %}
-                            <p class="help-block">{{ e }}</p>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.repeat.label }}
-                    {{ form.repeat(class_='form-control') }}
-                    {% if form.repeat.errors %}
-                        {% for e in form.repeat.errors %}
-                            <p class="help-block">{{ e }}</p>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div>
-                    {{ form.submit(class_='form-control btn-primary btn-block') }}
-                </div>
+                {{ macros.form_item(form.email,placeholder='邮箱') }}
+                {{ macros.form_item(form.password,placeholder='密码') }}
+                {{ macros.form_item(form.repeat,placeholder='确认密码') }}
+                {{ macros.form_item(form.submit,class='form-control btn-primary btn-block') }}
             </form>
         </div>
     </div>
