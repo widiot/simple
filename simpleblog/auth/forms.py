@@ -1,23 +1,30 @@
 from flask_wtf import FlaskForm
+from flask_login import current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms import ValidationError
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from ..models import User
 
 
-# 用户注册的表单
+# 注册
 class RegisterForm(FlaskForm):
     email = StringField(
-        '邮箱', validators=[DataRequired(),
-                          Length(1, 64),
-                          Email()])
+        '邮箱',
+        validators=[DataRequired(message='该行不能为空'),
+                    Length(1, 64),
+                    Email()])
     password = PasswordField(
-        '密码', validators=[DataRequired(),
-                          Length(min=6, message='密码长度至少6位')])
+        '密码',
+        validators=[
+            DataRequired(message='该行不能为空'),
+            Length(min=6, message='密码长度至少6位')
+        ])
     repeat = PasswordField(
         '确认密码',
-        validators=[DataRequired(),
-                    EqualTo('password', message='密码不匹配')])
+        validators=[
+            DataRequired(message='该行不能为空'),
+            EqualTo('password', message='密码不匹配')
+        ])
     submit = SubmitField('注册Simple')
 
     # 检查邮箱是否已经存在
@@ -26,13 +33,14 @@ class RegisterForm(FlaskForm):
             raise ValidationError('该邮箱已注册')
 
 
-# 用户登录的表单
+# 登录
 class LoginForm(FlaskForm):
     email = StringField(
-        '邮箱', validators=[DataRequired(),
-                          Length(1, 64),
-                          Email()])
-    password = PasswordField('密码', validators=[DataRequired()])
+        '邮箱',
+        validators=[DataRequired(message='该行不能为空'),
+                    Length(1, 64),
+                    Email()])
+    password = PasswordField('密码', validators=[DataRequired(message='该行不能为空')])
     remember_me = BooleanField('记住我')
     submit = SubmitField('登录Simple')
 
@@ -55,3 +63,26 @@ class LoginForm(FlaskForm):
             return False
 
         return True
+
+
+# 更改密码
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField(
+        '旧密码', validators=[DataRequired(message='该行不能为空')])
+    password = PasswordField(
+        '新密码',
+        validators=[
+            DataRequired(message='该行不能为空'),
+            Length(min=6, message='密码长度至少6位')
+        ])
+    repeat = PasswordField(
+        '确认密码',
+        validators=[
+            DataRequired(message='该行不能为空'),
+            EqualTo('password', message='密码不匹配')
+        ])
+    submit = SubmitField('确认')
+
+    def validate_old_password(self, field):
+        if not current_user.check_password(field.data):
+            raise ValidationError('原密码错误')

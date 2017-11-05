@@ -1,8 +1,9 @@
 import datetime
-from flask import redirect, url_for, flash, render_template, request
+from urllib import parse
+from flask import redirect, url_for, flash, render_template, request, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, ChangePasswordForm
 from ..models import User
 from ..email import send_email
 from .. import db
@@ -79,7 +80,6 @@ def before_request():
                 and request.endpoint \
                 and request.endpoint[:5] != 'auth.' \
                 and request.endpoint != 'static':
-
             return redirect(url_for('auth.unconfirmed'))
 
 
@@ -112,4 +112,29 @@ def resend_confirmation():
 @auth.route('/settings')
 @login_required
 def settings():
-    return render_template('auth/settings.html')
+    change_password_form = ChangePasswordForm()
+    return render_template(
+        'auth/settings.html', change_password_form=change_password_form)
+
+
+# 更改设置
+@auth.route('/settings/<option>', methods=['POST'])
+@login_required
+def settings_option(option):
+    options = ['change-password']
+    # 选项只能是设置中包含的
+    if option not in options:
+        abort(404)
+
+    # 修改密码
+    if option == options[0]:
+        form = ChangePasswordForm()
+        if form.validate_on_submit():
+            current_user.set_password(form.password.data)
+            db.session.add(current_user)
+            db.session.commit()
+            flash('密码更改成功')
+            return redirect(url_for('auth.settings'))
+        flash('密码更改失败')
+        return render_template('auth/settings.html', change_password_form=form)
+    return redirect(url_for('auth.settings'))

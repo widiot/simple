@@ -1,10 +1,8 @@
 {% macro form_item(field,placeholder,class='form-control') %}
-    <div class="form-group">
-        {{ field(class=class,placeholder=placeholder) }}
-        {% if field.errors %}
-            {% for e in field.errors %}
-                <p class="help-block">{{ e }}</p>
-            {% endfor %}
-        {% endif %}
-    </div>
+    {{ field(class=class,placeholder=placeholder) }}
+    {% if field.errors %}
+        {% for e in field.errors %}
+            <p class="help-block">{{ e }}</p>
+        {% endfor %}
+    {% endif %}
 {% endmacro %}
