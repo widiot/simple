@@ -35,12 +35,12 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         # 创建用户并提交到数据库
-        user = User()
-        user.email = form.email.data
+        user = User(
+            email=form.email.data,
+            username=form.email.data,
+            avatar='default.jpg',
+            register_date=datetime.datetime.now())
         user.set_password(form.password.data)
-        user.username = form.email.data
-        user.avatar = 'default.jpg'
-        user.register_date = datetime.datetime.now()
         db.session.add(user)
         db.session.commit()
 

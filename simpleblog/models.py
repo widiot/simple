@@ -4,6 +4,42 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from . import db, bcrypt, login_manager
 
 
+# 权限
+class Permission:
+    FOLLOW = 0x01  # 关注用户
+    COMMENT = 0x02  # 评论
+    WRITE_ARTICLES = 0x04  # 写文章
+    MODERATE_COMMENTS = 0x08  # 删除评论
+    ADMINISTER = 0x80  # 管理员
+
+
+# 角色
+class Role(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    default = db.Column(db.Boolean(), default=False, index=True)
+    permissions = db.Column(db.Integer())
+    users = db.relationship('User', backref='role', lazy='dynamic')
+
+    # 当数据库没有roles中的角色时，创建该角色
+    @staticmethod
+    def insert_roles():
+        roles = {
+            'User':
+            (Permission.FOLLOW | Permission.COMMENT
+             | Permission.WRITE_ARTICLES | Permission.MODERATE_COMMENTS, True),
+            'Administrator': (0xff, False)
+        }
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if not role:
+                role = Role(name=r)
+            role.permissions = roles[r][0]
+            role.default = roles[r][1]
+            db.session.add(role)
+        db.session.commit()
+
+
 # 博客标签表
 class Tag(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -77,6 +113,7 @@ class User(UserMixin, db.Model):
     introduction = db.Column(db.Text())
     register_date = db.Column(db.DateTime())
     confirmed = db.Column(db.Boolean, default=False)  # 邮箱是否验证
+    role_id = db.Column(db.Integer(), db.ForeignKey('role.id'))
     categories = db.relationship(
         'Category',
         backref='user',
@@ -104,6 +141,23 @@ class User(UserMixin, db.Model):
         backref=db.backref('follower', lazy='joined'),
         lazy='dynamic',
         cascade='all,delete-orphan')
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if not self.role:
+            if self.email == current_app.config['SIMPLE_ADMIN']:
+                self.role = Role.query.filter_by(permissions=0xff).first()
+            if not self.role:
+                self.role = Role.query.filter_by(default=True).first()\
+
+    # 检查权限
+    def can(self, permissions):
+        return self.role is not None and (
+            self.role.permissions & permissions) == permissions
+
+    # 是否是管理员
+    def is_administrator(self):
+        return self.can(Permission.ADMINISTER)
 
     # 将密码转为Hash值存储
     def set_password(self, password):
@@ -174,6 +228,15 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
         return True
+
+
+# 匿名用户
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
 
 
 # Flask Login用user_loader获取用户

@@ -5,6 +5,7 @@ root_dir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    SIMPLE_ADMIN = '984209543@qq.com'
     SIMPLE_MAIL_SUBJECT_PREFIX = '[Simple]'
     SIMPLE_MAIL_SENDER = 'Simple 管理员 <984209543@qq.com>'
 
