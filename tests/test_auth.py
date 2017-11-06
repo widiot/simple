@@ -74,7 +74,7 @@ class AuthTestCase(unittest.TestCase):
         self.assertIn('认证邮件已经发送，请登录你的邮箱进行确认', response.get_data(as_text=True))
 
         # 重置密码
-        token = user.generate_reset_token()
+        token = user.generate_reset_password_token()
         response = self.client.post(
             url_for('auth.reset_password', token='false token'),
             data={
@@ -97,7 +97,7 @@ class AuthTestCase(unittest.TestCase):
 
     # 个人设置
     def test_settings(self):
-        self.insert_user()
+        user = self.insert_user()
 
         # 登录
         response = self.client.post(
@@ -109,7 +109,7 @@ class AuthTestCase(unittest.TestCase):
 
         # 更改密码
         response = self.client.post(
-            url_for('auth.settings_option', option='change-password'),
+            url_for('auth.settings', option='change-password'),
             data={
                 'old_password': '123456',
                 'password': '654321',
@@ -119,7 +119,7 @@ class AuthTestCase(unittest.TestCase):
         self.assertIn('密码更改成功', response.get_data(as_text=True))
 
         response = self.client.post(
-            url_for('auth.settings_option', option='change-password'),
+            url_for('auth.settings', option='change-password'),
             data={
                 'old_password': '123456',
                 'password': '654321',
@@ -128,3 +128,19 @@ class AuthTestCase(unittest.TestCase):
             follow_redirects=True)
         self.assertIn('密码更改失败', response.get_data(as_text=True))
         self.assertIn('原密码错误', response.get_data(as_text=True))
+
+        # 更改邮箱
+        new_email = 'new@example.com'
+        response = self.client.post(
+            url_for('auth.settings', option='change-email'),
+            data={
+                'email': new_email,
+                'password': '654321',
+            },
+        )
+        self.assertIn('认证邮件已经发送，请登录你的邮箱进行确认', response.get_data(as_text=True))
+
+        token = user.generate_change_email_token(new_email)
+        response = self.client.get(
+            url_for('auth.change_email', token=token), follow_redirects=True)
+        self.assertIn('邮箱更改成功', response.get_data(as_text=True))

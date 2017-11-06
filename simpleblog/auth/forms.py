@@ -157,7 +157,6 @@ class ChangeEmailForm(FlaskForm):
     # 验证邮箱是否已经存在，以及密码是否正确
     def validate(self):
         check_validate = super(ChangeEmailForm, self).validate()
-
         if not check_validate:
             return False
 
@@ -166,6 +165,7 @@ class ChangeEmailForm(FlaskForm):
             self.email.errors.append('该邮箱已注册')
             return False
 
-        if not user.check_password(self.password.data):
+        if not current_user.check_password(self.password.data):
             self.password.errors.append('密码错误')
             return False
+        return True

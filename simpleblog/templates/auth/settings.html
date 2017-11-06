@@ -97,7 +97,7 @@
             </div>
 
             <div id="changePassword">
-                <form method="post" action="{{ url_for('auth.settings_option',option='change-password') }}">
+                <form method="post" action="{{ url_for('auth.settings',option='change-password') }}">
                     {{ change_password_form.hidden_tag() }}
                     <table class="table">
                         <caption><h2>更改密码</h2></caption>
@@ -138,21 +138,28 @@
             </div>
 
             <div id="changeEmail">
-                <form>
+                <form method="post" action="{{ url_for('auth.settings',option='change-email') }}">
+                    {{ change_email_form.hidden_tag() }}
                     <table class="table">
                         <caption><h2>更改邮箱</h2></caption>
                         <tbody>
                         <tr class="row">
                             <td class="col-md-3 text-muted">新邮箱</td>
-                            <td class="col-md-9"><input type="email" class="form-control" placeholder="输入新邮箱"></td>
+                            <td class="col-md-9">
+                                {{ macros.form_item(change_email_form.email) }}
+                            </td>
                         </tr>
                         <tr class="row">
                             <td class="text-muted">密码</td>
-                            <td><input type="password" class="form-control" placeholder="输入原账号密码"></td>
+                            <td>
+                                {{ macros.form_item(change_email_form.password) }}
+                            </td>
                         </tr>
                         <tr class="row">
                             <td></td>
-                            <td><input type="submit" class="btn btn-primary" value="确认"></td>
+                            <td>
+                                {{ macros.form_item(change_email_form.submit,class='btn btn-primary') }}
+                            </td>
                         </tr>
                         </tbody>
                     </table>

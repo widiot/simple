@@ -1,0 +1,4 @@
+<p>亲爱的 <b>user.username</b></p>
+<p>认证邮箱请点击<a href="{{ url_for('auth.reset_password',token=token,_external=True) }}">认证</a></p>
+<p>或者你可以直接复制下面的链接到浏览器的地址栏：</p>
+<p>{{ url_for('auth.reset_password',token=token,_external=True) }}</p>

@@ -1,0 +1,5 @@
+亲爱的 {{ user.username }}
+
+认证邮箱请点击下面的链接：
+
+{{ url_for('auth.reset_password',token=token,_external=True) }}

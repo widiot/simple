@@ -131,7 +131,7 @@ class User(UserMixin, db.Model):
         return True
 
     # 生成重置密码的令牌
-    def generate_reset_token(self, expiration=3600):
+    def generate_reset_password_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'reset': self.id})
 
@@ -147,6 +147,32 @@ class User(UserMixin, db.Model):
         self.set_password(password)
         db.session().add(self)
         db.session().commit()
+        return True
+
+    # 生成修改邮箱的令牌
+    def generate_change_email_token(self, new_email, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'change_email': self.id, 'new_email': new_email})
+
+    # 修改邮箱
+    def change_email(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+
+        if data.get('change_email') != self.id:
+            return False
+
+        new_email = data.get('new_email')
+        if not new_email:
+            return False
+        if User.query.filter_by(email=new_email).first():
+            return False
+        self.email = new_email
+        db.session.add(self)
+        db.session.commit()
         return True
 
 
