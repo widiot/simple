@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#blog" data-toggle="tab">博客</a>
+        </li>
+        <li class="dropdown">
+            <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">
+                关系<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" style="min-width:100%;">
+                <li><a href="#following" tabindex="-1" data-toggle="tab">关注</a></li>
+                <li><a href="#followed" tabindex="-1" data-toggle="tab">粉丝</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endblock %}

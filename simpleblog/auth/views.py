@@ -9,6 +9,27 @@ from ..email import send_email
 from .. import db
 
 
+# 过滤已经登录但是还未认证，请求的端点也不在auth中的用户，重定向到无权限页面
+@auth.before_app_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.ping()
+        if not current_user.confirmed \
+                and request.endpoint \
+                and request.endpoint[:5] != 'auth.' \
+                and request.endpoint != 'static':
+            return redirect(url_for('auth.unconfirmed'))
+
+
+# 如果是匿名用户或者已认证用户，则重定向到主页，否则到无权限页面
+@auth.route('/unconfirmed')
+def unconfirmed():
+    if current_user.is_anonymous or current_user.confirmed:
+        return redirect(url_for('main.index'))
+
+    return render_template('auth/unconfirmed.html')
+
+
 # 登录
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -38,8 +59,7 @@ def register():
         user = User(
             email=form.email.data,
             username=form.email.data,
-            avatar='default.jpg',
-            register_date=datetime.datetime.now())
+            avatar='default.jpg')
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -66,28 +86,7 @@ def confirm(token):
         flash('你的邮箱已经通过验证')
     else:
         flash('邮箱验证错误或过期，请重试')
-
     return redirect(url_for('main.index'))
-
-
-# 过滤已经登录但是还未认证，请求的端点也不在auth中的用户，重定向到无权限页面
-@auth.before_app_request
-def before_request():
-    if current_user.is_authenticated:
-        if not current_user.confirmed \
-                and request.endpoint \
-                and request.endpoint[:5] != 'auth.' \
-                and request.endpoint != 'static':
-            return redirect(url_for('auth.unconfirmed'))
-
-
-# 如果是匿名用户或者已认证用户，则重定向到主页，否则到无权限页面
-@auth.route('/unconfirmed')
-def unconfirmed():
-    if current_user.is_anonymous or current_user.confirmed:
-        return redirect(url_for('main.index'))
-
-    return render_template('auth/unconfirmed.html')
 
 
 # 重新发送认证邮件
@@ -102,7 +101,6 @@ def resend_confirmation():
         user=current_user,
         token=token)
     flash('新的认证邮件已经发送到你的邮箱')
-
     return redirect(url_for('main.index'))
 
 

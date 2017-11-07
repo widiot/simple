@@ -1,5 +1,6 @@
 from flask import current_app
 from flask_login import AnonymousUserMixin, UserMixin
+from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from . import db, bcrypt, login_manager
 
@@ -106,12 +107,13 @@ class Follow(db.Model):
 # 继承UserMixin可以提供Flask-Login要求实现的四个方法，不过调用的时候好像不是方法，是bool属性
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    username = db.Column(db.String(), unique=True)
+    username = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String())
-    email = db.Column(db.String(), unique=True)
+    email = db.Column(db.String(64), unique=True)
     avatar = db.Column(db.String())
     introduction = db.Column(db.Text())
-    register_date = db.Column(db.DateTime())
+    register_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     confirmed = db.Column(db.Boolean, default=False)  # 邮箱是否验证
     role_id = db.Column(db.Integer(), db.ForeignKey('role.id'))
     categories = db.relationship(
@@ -150,6 +152,14 @@ class User(UserMixin, db.Model):
             if not self.role:
                 self.role = Role.query.filter_by(default=True).first()\
 
+    # 将密码转为Hash值存储
+    def set_password(self, password):
+        self.password_hash = bcrypt.generate_password_hash(password)
+
+    # 检查明文密码的Hash值是否匹配
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password_hash, password)
+
     # 检查权限
     def can(self, permissions):
         return self.role is not None and (
@@ -159,20 +169,12 @@ class User(UserMixin, db.Model):
     def is_administrator(self):
         return self.can(Permission.ADMINISTER)
 
-    # 将密码转为Hash值存储
-    def set_password(self, password):
-        self.password_hash = bcrypt.generate_password_hash(password)
-
-    # 检查明文密码的Hash值是否匹配
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
-
-    # 生成验证令牌
+    # 生成注册验证令牌
     def generate_confirmation_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id})
 
-    # 验证令牌是否正确
+    # 验证注册令牌是否正确
     def confirm(self, token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
@@ -228,6 +230,12 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
         return True
+
+    # 刷新用户登录时间
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
 
 
 # 匿名用户

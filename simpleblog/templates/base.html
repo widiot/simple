@@ -5,6 +5,26 @@
     {{ super() }}
     <link rel="shortcut icon" href="{{ url_for('static',filename='images/favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static',filename='images/favicon.ico') }}" type="image/x-icon">
+    <style>
+        @font-face {
+            font-family: 'iconfont';  /* project id 467496 */
+            src: url('//at.alicdn.com/t/font_467496_hw5737h1l9pb9.eot');
+            src: url('//at.alicdn.com/t/font_467496_hw5737h1l9pb9.eot?#iefix') format('embedded-opentype'),
+            url('//at.alicdn.com/t/font_467496_hw5737h1l9pb9.woff') format('woff'),
+            url('//at.alicdn.com/t/font_467496_hw5737h1l9pb9.ttf') format('truetype'),
+            url('//at.alicdn.com/t/font_467496_hw5737h1l9pb9.svg#iconfont') format('svg');
+        }
+
+        .icon-zhuce {
+            font-family: "iconfont" !important;
+            font-size: 13px;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke-width: 0.4px;
+            -moz-osx-font-smoothing: grayscale;
+            margin-top: 20px;
+        }
+    </style>
 {% endblock %}
 
 {# 网页标题 #}
@@ -30,33 +50,62 @@
             {# 收集导航链接，表单和其他内容进行切换 #}
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                    <li>
+                        <a href="{{ url_for('main.index') }}">
+                            <span class="glyphicon glyphicon-home"></span> 首页</a>
+                    </li>
                     {% if current_user.is_authenticated %}
-                        <li><a href="#">关注</a></li>
+                        <li>
+                            <a href="#">
+                                <span class="glyphicon glyphicon-eye-open"></span> 关注</a>
+                        </li>
                     {% endif %}
                 </ul>
                 <form class="navbar-form navbar-left">
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <input type="text" class="form-control" placeholder="搜索">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
                     </div>
-                    <button type="submit" class="btn btn-primary">搜索</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_authenticated %}
-                        <li><a href="#">消息</a></li>
+                        <li>
+                            <a href="#">
+                                <span class="glyphicon glyphicon-bell"></span> 消息</a>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false">我的</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">我的主页</a></li>
-                                <li><a href="{{ url_for('auth.settings',option='index') }}">设置</a></li>
+                               style="padding: 10px 15px;"
+                               aria-haspopup="true" aria-expanded="false">
+                                <img class="img-circle"
+                                     src="{{ url_for('static',filename='images/'+current_user.avatar) }}"
+                                     width="30" height="30">
+                            </a>
+                            <ul class=" dropdown-menu" style="min-width:100%;">
+                                <li>
+                                    <a href="{{ url_for('main.user',username=current_user.username) }}">
+                                        <span class="glyphicon glyphicon-user"></span> 我的主页</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('auth.settings',option='index') }}">
+                                        <span class="glyphicon glyphicon-cog"></span> 设置</a>
+                                </li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="{{ url_for('auth.logout') }}">退出</a></li>
+                                <li>
+                                    <a href="{{ url_for('auth.logout') }}">
+                                        <span class="glyphicon glyphicon-log-out"></span> 退出</a>
+                                </li>
                             </ul>
                         </li>
                     {% else %}
-                        <li><a href="{{ url_for('auth.login') }}">登录</a></li>
-                        <li><a href="{{ url_for('auth.register') }}">注册</a></li>
+                        <li>
+                            <a href="{{ url_for('auth.login') }}">
+                                <span class="glyphicon glyphicon-log-in"></span> 登录</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('auth.register') }}">
+                                <span class="icon-zhuce">&#xe675;</span> 注册</a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
