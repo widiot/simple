@@ -21,6 +21,11 @@
             margin-right: 30px;
         }
 
+        .card {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
         #myScrollspy {
             padding-top: 50px;
         }
@@ -46,7 +51,7 @@
 
         {# 内容 #}
         <div class="col-md-9">
-            <div id="personal">
+            <div id="personal" class="card">
                 <table class="table">
                     <caption><h2>个人信息</h2></caption>
                     <tbody>
@@ -96,7 +101,7 @@
                 </table>
             </div>
 
-            <div id="changePassword">
+            <div id="changePassword" class="card">
                 <form method="post" action="{{ url_for('auth.settings',option='change-password') }}">
                     {{ change_password_form.hidden_tag() }}
                     <table class="table">
@@ -137,7 +142,7 @@
                 </form>
             </div>
 
-            <div id="changeEmail">
+            <div id="changeEmail" class="card">
                 <form method="post" action="{{ url_for('auth.settings',option='change-email') }}">
                     {{ change_email_form.hidden_tag() }}
                     <table class="table">
@@ -166,7 +171,7 @@
                 </form>
             </div>
 
-            <div id="message">
+            <div id="message" class="card">
                 <form role="form">
                     <table class="table">
                         <caption><h2>邮件通知</h2></caption>
