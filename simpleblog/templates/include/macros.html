@@ -1,5 +1,5 @@
-{% macro form_item(field,placeholder,class='form-control') %}
-    {{ field(class=class,placeholder=placeholder) }}
+{% macro form_item(field,class='form-control') %}
+    {{ field(class=class,**kwargs) }}
     {% if field.errors %}
         {% for e in field.errors %}
             <p class="help-block">{{ e }}</p>

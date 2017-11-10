@@ -109,9 +109,9 @@ class Role(db.Model):
 # 继承UserMixin可以提供Flask-Login要求实现的四个方法，不过调用的时候好像不是方法，是bool属性
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True)
+    email = db.Column(db.String(64), unique=True)
     username = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String())
-    email = db.Column(db.String(64), unique=True)
     avatar = db.Column(db.String())  # 用户自定义的头像
     gravatar_hash = db.Column(db.String(32))  # gravatar的头像Hash值
     introduction = db.Column(db.Text())

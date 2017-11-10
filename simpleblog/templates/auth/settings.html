@@ -52,6 +52,7 @@
         {# 内容 #}
         <div class="col-md-8">
             <div id="personal" class="card">
+                {# 用表格可以获得漂亮的下划线 #}
                 <table class="table">
                     <caption><h2>个人信息</h2></caption>
                     <tbody>
@@ -72,24 +73,21 @@
                     <tr class="row">
                         <td class="text-muted">昵称</td>
                         <td>
-                            <form role="form">
-                                <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="填写你的昵称"
-                                           value="{{ current_user.username|default('',True) }}">
-                                </div>
-                                <input type="submit" class="btn btn-primary" value="修改">
+                            <form method="post" action="{{ url_for('auth.settings',option='change-username') }}">
+                                {{ change_username_form.hidden_tag() }}
+                                {{ macros.form_item(change_username_form.username,value=current_user.username|default('',True)) }}
+                                {{ change_username_form.submit(class='btn btn-primary',style='margin-top:15px;') }}
                             </form>
                         </td>
                     </tr>
                     <tr class="row">
                         <td class="text-muted">简介</td>
                         <td>
-                            <form role="form">
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="3"
-                                              placeholder="填写你的个人简介">{{ current_user.introduction|default('',True) }}</textarea>
-                                </div>
-                                <input type="submit" class="btn btn-primary" value="修改">
+                            <form method="post"
+                                  action="{{ url_for('auth.settings',option='change-introduction') }}">
+                                {{ change_introduction_form.hidden_tag() }}
+                                {{ macros.form_item(change_introduction_form.introduction,rows='3',id='myarea') }}
+                                {{ change_introduction_form.submit(class='btn btn-primary',style='margin-top:15px;') }}
                             </form>
                         </td>
                     </tr>
