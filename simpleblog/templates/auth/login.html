@@ -1,16 +1,28 @@
 {% extends "base.html" %}
 {% import "include/macros.html" as macros %}
 
+{% block styles %}
+    {{ super() }}
+    <style>
+        .card {
+            padding: 0 20px 20px 20px;
+            margin-top: 40px;
+        }
+    </style>
+{% endblock %}
+
 {% block page_content %}
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-4 col-md-offset-4 card">
             <h1 class="text-center">Simple</h1>
             <p class="text-center">简单是一种人生态度</p><br>
+
             <ul class="nav nav-tabs nav-justified">
                 <li role="presentation" class="active"><a href="{{ url_for('auth.login') }}">登录</a></li>
                 <li role="presentation"><a href="{{ url_for('auth.register') }}">注册</a></li>
             </ul>
             <br>
+
             <form method="post" action="{{ url_for('auth.login') }}">
                 {{ form.hidden_tag() }}
                 {{ macros.form_item(form.email,placeholder='邮箱') }}

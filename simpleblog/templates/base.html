@@ -1,11 +1,14 @@
 {% extends "bootstrap/base.html" %}
 
-{# 收藏夹图标，以及阿里图标 #}
 {% block styles %}
     {{ super() }}
+
+    {# 收藏夹图标 #}
     <link rel="shortcut icon" href="{{ url_for('static',filename='images/favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static',filename='images/favicon.ico') }}" type="image/x-icon">
+
     <style>
+        /* 阿里图标链接 */
         @font-face {
             font-family: 'iconfont';  /* project id 467496 */
             src: url('//at.alicdn.com/t/font_467496_cq2wdviqrhir7ldi.eot');
@@ -26,20 +29,25 @@
         }
 
         .card {
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+            border-radius: 3px;
             background-color: white;
+            padding: 16px 20px;
+            overflow: hidden;
         }
 
         body {
             background-color: #f4f5f5;
         }
+
+        nav {
+            background-color: white !important;
+        }
     </style>
 {% endblock %}
 
-{# 网页标题 #}
 {% block title %}Simple{% endblock %}
 
-{# 导航条 #}
 {% block navbar %}
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -87,7 +95,7 @@
                                style="padding: 10px 15px;"
                                aria-haspopup="true" aria-expanded="false">
                                 <img class="img-circle"
-                                     src="{{ url_for('static',filename='images/'+current_user.avatar) }}"
+                                     src="{{ current_user.gravatar() }}"
                                      width="30" height="30">
                             </a>
                             <ul class=" dropdown-menu" style="min-width:100%;">
@@ -123,8 +131,9 @@
 {% endblock %}
 
 {% block content %}
-    {# 70px是为了防止导航栏挡住下面的内容 #}
-    <div class="container" style="padding-top:70px">
+    {# 60px是为了防止导航栏挡住下面的内容 #}
+    <div class="container" style="padding-top:60px">
+        {# 弹出框 #}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 {% for message in get_flashed_messages() %}
@@ -137,6 +146,9 @@
                 {% endfor %}
             </div>
         </div>
-        {% block page_content %}{% endblock %}
+
+        {# 页面内容，已经包含在一个container下 #}
+        {% block page_content %}
+        {% endblock %}
     </div>
 {% endblock %}

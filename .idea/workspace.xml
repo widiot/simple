@@ -4,6 +4,9 @@
     <list default="true" id="8085db66-2c25-4591-9ba0-b3961d0b8c25" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpleblog/database-deve.db" afterPath="$PROJECT_DIR$/simpleblog/database-deve.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpleblog/models.py" afterPath="$PROJECT_DIR$/simpleblog/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpleblog/templates/auth/login.html" afterPath="$PROJECT_DIR$/simpleblog/templates/auth/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpleblog/templates/auth/register.html" afterPath="$PROJECT_DIR$/simpleblog/templates/auth/register.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpleblog/templates/auth/settings.html" afterPath="$PROJECT_DIR$/simpleblog/templates/auth/settings.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpleblog/templates/base.html" afterPath="$PROJECT_DIR$/simpleblog/templates/base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpleblog/templates/user.html" afterPath="$PROJECT_DIR$/simpleblog/templates/user.html" />
@@ -22,40 +25,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/simpleblog/auth/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1484">
-              <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/simpleblog/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3108">
-              <caret line="115" column="65" lean-forward="false" selection-start-line="115" selection-start-column="65" selection-end-line="115" selection-end-column="65" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="base.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/simpleblog/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="29" column="36" lean-forward="false" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
-              <folding>
-                <element signature="e#3691#3718#0#HTML" expanded="true" />
-                <element signature="e#4105#4128#0#HTML" expanded="true" />
-                <element signature="e#5700#5724#0#HTML" expanded="true" />
-              </folding>
+            <state relative-caret-position="364">
+              <caret line="97" column="68" lean-forward="false" selection-start-line="97" selection-start-column="68" selection-end-line="97" selection-end-column="68" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -83,8 +58,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simpleblog/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="6" column="14" lean-forward="false" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+            <state relative-caret-position="140">
+              <caret line="5" column="10" lean-forward="false" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -102,14 +77,44 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="user.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simpleblog/templates/user.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="15" column="20" lean-forward="false" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+            <state relative-caret-position="168">
+              <caret line="24" column="77" lean-forward="false" selection-start-line="24" selection-start-column="77" selection-end-line="24" selection-end-column="77" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/simpleblog/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="337">
+              <caret line="163" column="37" lean-forward="true" selection-start-line="163" selection-start-column="37" selection-end-line="163" selection-end-column="37" />
               <folding>
-                <element signature="e#1884#1907#0#HTML" expanded="true" />
+                <element signature="e#0#14#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="register.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/simpleblog/templates/auth/register.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="672">
+              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/simpleblog/templates/auth/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="980">
+              <caret line="35" column="20" lean-forward="false" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -117,8 +122,8 @@
       <file leaf-file-name="settings.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simpleblog/templates/auth/settings.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="26" column="9" lean-forward="true" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+            <state relative-caret-position="252">
+              <caret line="60" column="70" lean-forward="false" selection-start-line="60" selection-start-column="70" selection-end-line="60" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -160,8 +165,6 @@
         <option value="$PROJECT_DIR$/simpleblog/templates/include/_macros.html" />
         <option value="$PROJECT_DIR$/simpleblog/templates/index.html" />
         <option value="$PROJECT_DIR$/simpleblog/templates/include/macros.html" />
-        <option value="$PROJECT_DIR$/simpleblog/templates/auth/login.html" />
-        <option value="$PROJECT_DIR$/simpleblog/templates/auth/register.html" />
         <option value="$PROJECT_DIR$/simpleblog/templates/auth/email/reset_password.html" />
         <option value="$PROJECT_DIR$/simpleblog/templates/auth/email/reset_password.txt" />
         <option value="$PROJECT_DIR$/simpleblog/templates/auth/reset_password.html" />
@@ -173,13 +176,15 @@
         <option value="$PROJECT_DIR$/simpleblog/main/__init__.py" />
         <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/simpleblog/config.py" />
-        <option value="$PROJECT_DIR$/simpleblog/models.py" />
         <option value="$PROJECT_DIR$/simpleblog/auth/views.py" />
         <option value="$PROJECT_DIR$/migrations/versions/f61c9759faf9_.py" />
         <option value="$PROJECT_DIR$/simpleblog/main/views.py" />
-        <option value="$PROJECT_DIR$/simpleblog/templates/base.html" />
+        <option value="$PROJECT_DIR$/simpleblog/templates/auth/register.html" />
+        <option value="$PROJECT_DIR$/simpleblog/templates/auth/login.html" />
+        <option value="$PROJECT_DIR$/simpleblog/models.py" />
         <option value="$PROJECT_DIR$/simpleblog/templates/auth/settings.html" />
         <option value="$PROJECT_DIR$/simpleblog/templates/user.html" />
+        <option value="$PROJECT_DIR$/simpleblog/templates/base.html" />
       </list>
     </option>
   </component>
@@ -213,8 +218,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -350,7 +355,7 @@
     <frame x="292" y="-6" width="1857" height="1092" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19275767" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20111421" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3267544" sideWeight="0.50194985" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -358,7 +363,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2982456" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32127193" sideWeight="0.49805015" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31907895" sideWeight="0.49805015" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -469,20 +474,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/simpleblog/static/js/send_verification.js" />
-    <entry file="file://$PROJECT_DIR$/simpleblog/templates/auth/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="26" column="14" lean-forward="false" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/simpleblog/templates/auth/register.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="21" column="51" lean-forward="false" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/simpleblog/templates/include/macros.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
@@ -580,25 +571,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
           <caret line="10" column="37" lean-forward="false" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/simpleblog/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="6" column="14" lean-forward="false" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/simpleblog/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3108">
-          <caret line="115" column="65" lean-forward="false" selection-start-line="115" selection-start-column="65" selection-end-line="115" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -627,7 +599,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -674,33 +645,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simpleblog/templates/base.html">
+    <entry file="file://$PROJECT_DIR$/simpleblog/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="29" column="36" lean-forward="false" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
+        <state relative-caret-position="140">
+          <caret line="5" column="10" lean-forward="false" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simpleblog/templates/auth/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="672">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simpleblog/templates/auth/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="980">
+          <caret line="35" column="20" lean-forward="false" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simpleblog/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="163" column="37" lean-forward="true" selection-start-line="163" selection-start-column="37" selection-end-line="163" selection-end-column="37" />
           <folding>
-            <element signature="e#3691#3718#0#HTML" expanded="true" />
-            <element signature="e#4105#4128#0#HTML" expanded="true" />
-            <element signature="e#5700#5724#0#HTML" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/simpleblog/templates/auth/settings.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="26" column="9" lean-forward="true" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+        <state relative-caret-position="252">
+          <caret line="60" column="70" lean-forward="false" selection-start-line="60" selection-start-column="70" selection-end-line="60" selection-end-column="70" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/simpleblog/templates/user.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="15" column="20" lean-forward="false" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-          <folding>
-            <element signature="e#1884#1907#0#HTML" expanded="true" />
-          </folding>
+        <state relative-caret-position="168">
+          <caret line="24" column="77" lean-forward="false" selection-start-line="24" selection-start-column="77" selection-end-line="24" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simpleblog/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="97" column="68" lean-forward="false" selection-start-line="97" selection-start-column="68" selection-end-line="97" selection-end-column="68" />
+          <folding />
         </state>
       </provider>
     </entry>

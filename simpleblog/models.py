@@ -1,44 +1,9 @@
-from flask import current_app
+import hashlib
+from flask import current_app, request
 from flask_login import AnonymousUserMixin, UserMixin
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from . import db, bcrypt, login_manager
-
-
-# 权限
-class Permission:
-    FOLLOW = 0x01  # 关注用户
-    COMMENT = 0x02  # 评论
-    WRITE_ARTICLES = 0x04  # 写文章
-    MODERATE_COMMENTS = 0x08  # 删除评论
-    ADMINISTER = 0x80  # 管理员
-
-
-# 角色
-class Role(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    default = db.Column(db.Boolean(), default=False, index=True)
-    permissions = db.Column(db.Integer())
-    users = db.relationship('User', backref='role', lazy='dynamic')
-
-    # 当数据库没有roles中的角色时，创建该角色
-    @staticmethod
-    def insert_roles():
-        roles = {
-            'User':
-            (Permission.FOLLOW | Permission.COMMENT
-             | Permission.WRITE_ARTICLES | Permission.MODERATE_COMMENTS, True),
-            'Administrator': (0xff, False)
-        }
-        for r in roles:
-            role = Role.query.filter_by(name=r).first()
-            if not role:
-                role = Role(name=r)
-            role.permissions = roles[r][0]
-            role.default = roles[r][1]
-            db.session.add(role)
-        db.session.commit()
 
 
 # 博客标签表
@@ -103,6 +68,43 @@ class Follow(db.Model):
     following_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
 
+# 用户权限
+class Permission:
+    FOLLOW = 0x01  # 关注用户
+    COMMENT = 0x02  # 评论
+    WRITE_ARTICLES = 0x04  # 写文章
+    MODERATE_COMMENTS = 0x08  # 删除评论
+    ADMINISTER = 0x80  # 管理员
+
+
+# 用户角色
+class Role(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    default = db.Column(db.Boolean(), default=False, index=True)
+    permissions = db.Column(db.Integer())
+    users = db.relationship('User', backref='role', lazy='dynamic')
+
+    # 当数据库没有roles中的角色时，就创建该角色
+    @staticmethod
+    def insert_roles():
+        # 默认用户、管理员
+        roles = {
+            'User':
+                (Permission.FOLLOW | Permission.COMMENT
+                 | Permission.WRITE_ARTICLES | Permission.MODERATE_COMMENTS, True),
+            'Administrator': (0xff, False)
+        }
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if not role:
+                role = Role(name=r)
+            role.permissions = roles[r][0]
+            role.default = roles[r][1]
+            db.session.add(role)
+        db.session.commit()
+
+
 # 用户表
 # 继承UserMixin可以提供Flask-Login要求实现的四个方法，不过调用的时候好像不是方法，是bool属性
 class User(UserMixin, db.Model):
@@ -110,7 +112,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String())
     email = db.Column(db.String(64), unique=True)
-    avatar = db.Column(db.String())
+    avatar = db.Column(db.String())  # 用户自定义的头像
+    gravatar_hash = db.Column(db.String(32))  # gravatar的头像Hash值
     introduction = db.Column(db.Text())
     register_date = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
@@ -146,13 +149,18 @@ class User(UserMixin, db.Model):
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
+        # 如果email是管理员，则赋予管理员权限，否则赋予默认权限
         if not self.role:
             if self.email == current_app.config['SIMPLE_ADMIN']:
                 self.role = Role.query.filter_by(permissions=0xff).first()
             if not self.role:
-                self.role = Role.query.filter_by(default=True).first()\
+                self.role = Role.query.filter_by(default=True).first()
 
-    # 将密码转为Hash值存储
+        # 设置gravatar的头像
+        if self.email and not self.gravatar_hash:
+            self.gravatar_hash = hashlib.md5(self.email.encode('utf-8')).hexdigest()
+
+    # 将明文密码转为Hash值存储
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password)
 
@@ -160,10 +168,23 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
+    # 生成gravatar的头像
+    def gravatar(self, size=100, default='identicon', rating='g'):
+        if request.is_secure:
+            url = 'https://secure.gravatar.com/avatar'
+        else:
+            url = 'http://www.gravatar.com/avatar'
+        hash = self.gravatar_hash or hashlib.md5(self.email.encode('utf-8')).hexdigest()
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(url=url,
+                                                                     hash=hash,
+                                                                     size=size,
+                                                                     default=default,
+                                                                     rating=rating)
+
     # 检查权限
     def can(self, permissions):
         return self.role is not None and (
-            self.role.permissions & permissions) == permissions
+                                             self.role.permissions & permissions) == permissions
 
     # 是否是管理员
     def is_administrator(self):
@@ -227,6 +248,7 @@ class User(UserMixin, db.Model):
         if User.query.filter_by(email=new_email).first():
             return False
         self.email = new_email
+        self.gravatar_hash = hashlib.md5(self.email.encode('utf-8')).hexdigest()
         db.session.add(self)
         db.session.commit()
         return True

@@ -27,7 +27,7 @@
         }
 
         #myScrollspy {
-            padding-top: 50px;
+            padding-top: 120px;
         }
     </style>
 {% endblock %}
@@ -39,7 +39,7 @@
 
 {% block page_content %}
     <div class="row">
-        {# 导航栏 #}
+        {# 附加导航栏 #}
         <div class="col-md-2" id="myScrollspy">
             <ul class="nav nav-pills nav-stacked" data-spy="affix">
                 <li class="active"><a href="#personal">个人信息</a></li>
@@ -57,8 +57,8 @@
                     <tbody>
                     {# 第一个需要用col-md，后面只需要加上row #}
                     <tr class="row">
-                        <td class="col-md-3"><img src="{{ url_for('static',filename='images/'+current_user.avatar) }}"
-                                                  class="img-circle"
+                        <td class="col-md-3"><img src="{{ current_user.gravatar() }}"
+                                                  class="img-thumbnail"
                                                   height="72"
                                                   width="72">
                         </td>
