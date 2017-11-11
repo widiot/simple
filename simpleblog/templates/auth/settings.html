@@ -93,7 +93,7 @@
                     </tr>
                     <tr class="row">
                         <td class="text-muted">注册时间</td>
-                        <td class="text-muted">{{ current_user.register_date }}</td>
+                        <td class="text-muted">{{ moment(current_user.register_date).format('LLL') }}</td>
                     </tr>
                     </tbody>
                 </table>
