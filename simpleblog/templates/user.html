@@ -15,16 +15,22 @@
         .card {
             margin-bottom: 10px;
         }
+
+        ul li a {
+            text-decoration: none !important;
+            display: block;
+            padding-top: 10px;
+        }
     </style>
 {% endblock %}
 {% block page_content %}
-    <div class="row myborder">
+    <div class="row">
         <div class="col-md-8" style="padding:0;">
             {# 资料 #}
             <div class="card">
-                <img src="{{ current_user.gravatar() }}" class="img-thumbnail"
+                <img src="{{ user.gravatar() }}" class="img-thumbnail"
                      width="80" height="80" style="float:left">
-                <div style="padding-left:100px;font-size:21px;font-weight:bold;">{{ current_user.username }}</div>
+                <div style="padding-left:100px;font-size:21px;font-weight:bold;">{{ user.username }}</div>
                 <div style="padding-left:100px;">上次登录 {{ moment(user.last_seen).fromNow(refresh=True) }}</div>
             </div>
 
@@ -64,7 +70,7 @@
                 </ul>
 
                 {# 内容 #}
-                <div class="tab-content myborder" id="myTabContent" style="padding-top:20px">
+                <div class="tab-content" id="myTabContent" style="padding-top:20px">
                     <div class="tab-pane fade in active" id="blog">
                         <p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，
                             帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
@@ -126,6 +132,21 @@
                             帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
                             帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
                             更是梦想。</p>
+                        <p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，
+                            帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
+                            帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
+                            帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
+                            帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
+                            更是梦想。</p>
+                        <p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，
+                            帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
+                            更是梦想。</p>
+                        <p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，
+                            帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
+                            帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
+                            帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
+                            帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，
+                            更是梦想。</p>
                     </div>
 
                     <div class="tab-pane fade" id="following">
@@ -168,10 +189,24 @@
         <div class="col-md-4" style="padding:0 0 0 10px;">
             {# 个人介绍 #}
             <div class="card">
+                <span class="text-muted">简介</span>
+                <a href="#" style="text-decoration:none;float:right;">
+                    <span class="glyphicon glyphicon-pencil"></span> 编辑</a>
+                <div style="padding-top:10px;">{{ user.introduction }}</div>
             </div>
 
             {# 博客分类 #}
             <div class="card">
+                <span class="text-muted">博客分类</span>
+                <ul style="padding:0;list-style:none;text-align:left;">
+                    <li><a href="#">Python <span class="label label-info">5</span></a></li>
+                    <li><a href="#">Java <span class="label label-info">15</span></a></li>
+                    <li><a href="#">Flask <span class="label label-info">25</span></a></li>
+                    <li><a href="#">Spring <span class="label label-info">35</span></a></li>
+                    <li><a href="#">C <span class="label label-info">45</span></a></li>
+                    <li><a href="#">Golang <span class="label label-info">55</span></a></li>
+                    <li><a href="#">Typescript <span class="label label-info">65</span></a></li>
+                </ul>
             </div>
         </div>
     </div>

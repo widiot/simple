@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 9a9f39c4bfdd
+Revision ID: 3efd16b554a7
 Revises: 
-Create Date: 2017-11-07 17:51:51.025351
+Create Date: 2017-11-11 14:30:48.963796
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9a9f39c4bfdd'
+revision = '3efd16b554a7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,10 +29,11 @@ def upgrade():
     op.create_index(op.f('ix_role_default'), 'role', ['default'], unique=False)
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(length=64), nullable=True),
     sa.Column('username', sa.String(length=64), nullable=True),
     sa.Column('password_hash', sa.String(), nullable=True),
-    sa.Column('email', sa.String(length=64), nullable=True),
     sa.Column('avatar', sa.String(), nullable=True),
+    sa.Column('gravatar_hash', sa.String(length=32), nullable=True),
     sa.Column('introduction', sa.Text(), nullable=True),
     sa.Column('register_date', sa.DateTime(), nullable=True),
     sa.Column('last_seen', sa.DateTime(), nullable=True),
@@ -61,8 +62,9 @@ def upgrade():
     op.create_table('post',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=True),
-    sa.Column('text', sa.Text(), nullable=True),
-    sa.Column('date', sa.DateTime(), nullable=True),
+    sa.Column('body', sa.Text(), nullable=True),
+    sa.Column('body_html', sa.Text(), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('stars', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=True),

@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import StringField, TextAreaField, PasswordField, BooleanField, SubmitField
-from wtforms import ValidationError
-from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp
+from wtforms import (StringField, TextAreaField, PasswordField, BooleanField,
+                     SubmitField, ValidationError)
+from wtforms.validators import DataRequired, Length, Email, EqualTo
 from ..models import User
 
 
@@ -71,8 +71,12 @@ class LoginForm(FlaskForm):
 
 # 修改昵称
 class ChangeUsername(FlaskForm):
-    username = StringField('昵称', validators=[DataRequired(message='该行不能为空'),
-                                             Length(1, 32, message='最大32字符')])
+    username = StringField(
+        '昵称',
+        validators=[
+            DataRequired(message='该行不能为空'),
+            Length(1, 32, message='最大32字符')
+        ])
     submit = SubmitField('确认修改')
 
 

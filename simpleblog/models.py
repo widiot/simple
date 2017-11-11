@@ -1,8 +1,10 @@
 import hashlib
+import bleach
 from flask import current_app, request
 from flask_login import AnonymousUserMixin, UserMixin
-from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from markdown import markdown
+from datetime import datetime
 from . import db, bcrypt, login_manager
 
 
@@ -31,11 +33,13 @@ class Category(db.Model):
 class Post(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String())
-    text = db.Column(db.Text())
-    date = db.Column(db.DateTime())
+    body = db.Column(db.Text())
+    body_html = db.Column(db.Text())
+    timestamp = db.Column(db.DateTime(), default=datetime.utcnow())
     stars = db.Column(db.Integer())
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     category_id = db.Column(db.Integer(), db.ForeignKey('category.id'))
+    published = db.Column(db.Boolean(), default=False)
     comments = db.relationship(
         'Comment', backref='post', lazy='dynamic', cascade='all,delete-orphan')
     tags = db.relationship(
@@ -50,6 +54,28 @@ class Post(db.Model):
         backref=db.backref('post', lazy='joined'),
         lazy='dynamic',
         cascade='all,delete-orphan')
+
+    # 处理富文本
+    @staticmethod
+    def on_change_body(target, value, oldvalue, initiator):
+        allowed_tags = [
+            'a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 'em', 'i', 'li',
+            'ol', 'pre', 'strong', 'ul', 'h1', 'h2', 'h3', 'p', 'span', 'code',
+            'pre', 'img', 'hr', 'div'
+        ]
+        allowed_attributes = ['src', 'alt', 'href', 'class']
+        target.body_html = bleach.linkify(
+            bleach.clean(
+                markdown(
+                    value,
+                    output_format='html',
+                    extensions=[
+                        'markdown.extensions.extra',
+                        'markdown.extensions.codehilite'
+                    ]),
+                tags=allowed_tags,
+                attributes=allowed_attributes,
+                strip=True))
 
 
 # 评论
@@ -158,7 +184,8 @@ class User(UserMixin, db.Model):
 
         # 设置gravatar的头像
         if self.email and not self.gravatar_hash:
-            self.gravatar_hash = hashlib.md5(self.email.encode('utf-8')).hexdigest()
+            self.gravatar_hash = hashlib.md5(
+                self.email.encode('utf-8')).hexdigest()
 
     # 将明文密码转为Hash值存储
     def set_password(self, password):
@@ -174,12 +201,10 @@ class User(UserMixin, db.Model):
             url = 'https://secure.gravatar.com/avatar'
         else:
             url = 'http://www.gravatar.com/avatar'
-        hash = self.gravatar_hash or hashlib.md5(self.email.encode('utf-8')).hexdigest()
-        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(url=url,
-                                                                     hash=hash,
-                                                                     size=size,
-                                                                     default=default,
-                                                                     rating=rating)
+        hash = self.gravatar_hash or hashlib.md5(
+            self.email.encode('utf-8')).hexdigest()
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
+            url=url, hash=hash, size=size, default=default, rating=rating)
 
     # 检查权限
     def can(self, permissions):
@@ -248,7 +273,8 @@ class User(UserMixin, db.Model):
         if User.query.filter_by(email=new_email).first():
             return False
         self.email = new_email
-        self.gravatar_hash = hashlib.md5(self.email.encode('utf-8')).hexdigest()
+        self.gravatar_hash = hashlib.md5(
+            self.email.encode('utf-8')).hexdigest()
         db.session.add(self)
         db.session.commit()
         return True
@@ -273,3 +299,7 @@ class AnonymousUser(AnonymousUserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+# 监听body的set事件，一旦更新则转为富文本
+db.event.listen(Post.body, 'set', Post.on_change_body)

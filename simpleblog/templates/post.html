@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    {{ post.title | safe }}
+    {{ post.body_html | safe }}
+{% endblock %}

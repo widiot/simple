@@ -1,0 +1,130 @@
+{% extends "bootstrap/base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <style>
+        .title {
+            width: 100%;
+            height: 100%;
+            padding: 15px 20px;
+            border: none;
+            outline: none;
+            font-size: 2rem;
+            font-weight: bold;
+            overflow: hidden; /*内容会被修剪，并且其余内容是不可见的*/
+            text-overflow: ellipsis; /*显示省略符号来代表被修剪的文本*/
+            white-space: nowrap; /*不换行*/
+            -webkit-appearance: none;
+            box-sizing: border-box;
+            background-color: white;
+        }
+
+        #flask-pagedown-body {
+            width: 100%;
+            height: 475px;
+            padding: 20px;
+            margin-bottom: 0;
+            border: none;
+            outline: none;
+            background-color: white;
+            display: inline-block;
+            resize: none;
+            color: #2f2f2f;
+            font-size: 18px;
+            font-weight: normal;
+            line-height: 30px;
+            -webkit-appearance: none;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+
+        .flask-pagedown-preview {
+            height: 575px;
+            padding: 40px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #fcfaf2;
+            font-size: 18px;
+            font-weight: normal;
+            line-height: 30px;
+        }
+
+        .toolbar {
+            border-top: 1px solid #f4f5f5;
+            border-bottom: 1px solid #f4f5f5;
+            background-color: #f4f5f5;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <form id="pform" method="post" action="{{ url_for('main.publish') }}">
+                {# 编辑区 #}
+                <div class="col-md-6" style="padding:0;border-right: 1px solid lightgray;">
+                    {{ form.hidden_tag() }}
+                    {{ form.title(class="title",placeholder="请输入标题") }}
+                    {# 工具栏 #}
+                    <ul class="nav nav-pills toolbar">
+                        <li>
+                            <a href="#" data-toggle="tooltip" title="上传图片">
+                                <span class="glyphicon glyphicon-picture"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="tooltip" title="保存">
+                                <span class="glyphicon glyphicon-file"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('main.index') }}" data-toggle="tooltip" title="返回首页">
+                                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+                        </li>
+                        {% if published %}
+                            <li class="pull-right" onclick="canclePublish()">
+                                <a href="#" data-toggle="tooltip" title="取消发表">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="pull-right" onclick="publish()">
+                                <a href="#" data-toggle="tooltip" title="发表博客">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    {{ form.body(only_input=True) }}
+                </div>
+
+                {# 预览区 #}
+                <div class="col-md-6" style="padding:0;">
+                    {{ form.body(only_preview=True) }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ pagedown.include_pagedown() }}
+    <script>
+        $(function () {
+            $("[data-toggle='tooltip']").tooltip();
+        });
+
+        //发表博客
+        function publish() {
+            var pform = document.getElementById('pform')
+            pform.submit()
+        }
+
+        //取消发表博客
+        function canclePublish() {
+
+        }
+    </script>
+{% endblock %}
