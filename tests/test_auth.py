@@ -17,7 +17,7 @@ class AuthTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    # 注册和登录
+    # 测试注册和登录
     def test_register_and_login(self):
         # 注册一个用户
         response = self.client.post(
@@ -62,7 +62,7 @@ class AuthTestCase(unittest.TestCase):
         db.session.commit()
         return user
 
-    # 重置密码
+    # 测试重置密码
     def test_reset_password(self):
         user = self.insert_user()
 
@@ -95,7 +95,7 @@ class AuthTestCase(unittest.TestCase):
             follow_redirects=True)
         self.assertIn('密码重置成功，请用新密码登录', response.get_data(as_text=True))
 
-    # 个人设置
+    # 测试个人设置
     def test_settings(self):
         user = self.insert_user()
 
@@ -106,6 +106,23 @@ class AuthTestCase(unittest.TestCase):
                   'password': '123456'},
             follow_redirects=True)
         self.assertIn('Hello', response.get_data(as_text=True))
+
+        # 修改昵称
+        response = self.client.post(
+            url_for('auth.settings', option='change-username'),
+            data={'username': 'test'},
+            follow_redirects=True)
+        self.assertIn('昵称修改成功', response.get_data(as_text=True))
+        self.assertIn('test', response.get_data(as_text=True))
+
+        # 修改简介
+        response = self.client.post(
+            url_for('auth.settings', option='change-introduction'),
+            data={'introduction': 'This is my introduction'},
+            follow_redirects=True)
+        self.assertIn('简介修改成功', response.get_data(as_text=True))
+        self.assertIn(
+            'This is my introduction', response.get_data(as_text=True))
 
         # 更改密码
         response = self.client.post(
