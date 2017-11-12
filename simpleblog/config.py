@@ -5,12 +5,17 @@ root_dir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+
+    # 邮件配置
     SIMPLE_ADMIN = '984209543@qq.com'
     SIMPLE_MAIL_SUBJECT_PREFIX = '[Simple]'
     SIMPLE_MAIL_SENDER = 'Simple 管理员 <984209543@qq.com>'
 
     # 防止SQLAlchemy出现FSADeprecationWarning
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+
+    # 每页的项目数
+    SIMPLE_PER_PAGE = 5
 
 
 class DevelopmentConfig(Config):

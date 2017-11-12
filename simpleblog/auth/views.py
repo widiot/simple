@@ -1,9 +1,10 @@
 from flask import redirect, url_for, flash, render_template, request, abort
 from flask_login import login_user, logout_user, login_required, current_user
+from datetime import datetime
 from . import auth
 from .forms import (LoginForm, RegisterForm, ChangePasswordForm,
-                    ResetPasswordForm, SendVerification, ChangeEmailForm, ChangeUsername,
-                    ChangeIntroduction)
+                    ResetPasswordForm, SendVerification, ChangeEmailForm,
+                    ChangeUsername, ChangeIntroduction)
 from ..models import User
 from ..email import send_email
 from .. import db
@@ -58,7 +59,8 @@ def register():
         # 创建用户并提交到数据库
         user = User(
             email=form.email.data,
-            username=form.email.data)
+            username=form.email.data,
+            register_date=datetime.utcnow())
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -149,7 +151,10 @@ def reset_password(token):
 @auth.route('/settings/<option>', methods=['GET', 'POST'])
 @login_required
 def settings(option):
-    options = ['index', 'change-username', 'change-introduction', 'change-password', 'change-email']
+    options = [
+        'index', 'change-username', 'change-introduction', 'change-password',
+        'change-email'
+    ]
     # 选项只能是设置中包含的
     if option not in options:
         abort(404)

@@ -1,6 +1,69 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    {{ super() }}
+    <style>
+        .post-title {
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .post-content h1 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .post-content h2 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .post-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .post-content p {
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .card {
+            margin-bottom: 10px;
+        }
+    </style>
+{% endblock %}
+
 {% block page_content %}
-    {{ post.title | safe }}
-    {{ post.body_html | safe }}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 card">
+            {# 作者信息 #}
+            <div class="post-header" style="margin-bottom:30px;">
+                {# 头像 #}
+                <a style="vertical-align: middle;display: inline-block;"
+                   href="{{ url_for('main.user',username=post.user.username,option='blog',page=1) }}">
+                    <img class="img-circle" src="{{ post.user.gravatar(size=40) }}">
+                </a>
+                {# 信息 #}
+                <div style="display:inline-block;vertical-align:middle;margin-left:10px;">
+                    <a style="font-size:15px;"
+                       href="{{ url_for('main.user',username=post.user.username,option='blog',page=1) }}">
+                        {{ post.user.username }}
+                    </a>
+                    <div class="text-muted">
+                        {{ moment(post.timestamp).format('L') }}
+                    </div>
+                </div>
+                {# 编辑按钮 #}
+                <a style="float:right;" href="{{ url_for('main.update_post',id=post.id) }}" type="button"
+                   class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil"></span> 编辑
+                </a>
+            </div>
+            <h1 class="post-title">{{ post.title | safe }}</h1>
+            <div class="post-content">
+                {{ post.body_html | safe }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

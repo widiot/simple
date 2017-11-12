@@ -1,0 +1,28 @@
+<ul class="posts" style="padding:0;">
+    {% for post in posts %}
+        <li class="post" style="border-bottom:1px solid #ddd;padding-top:15px;">
+            <div class="post-header" style="padding-bottom:10px;">
+                <a href="{{ url_for('main.user',username=post.user.username,option='blog',page=1) }}">
+                    <img class="img-circle" src="{{ post.user.gravatar(size=32) }}">
+                </a>
+                <a style="padding:0 5px;"
+                   href="{{ url_for('main.user',username=post.user.username,option='blog',page=1) }}">
+                    {{ post.user.username }}
+                </a>
+                <span class="text-muted">{{ moment(post.timestamp).fromNow() }}</span>
+            </div>
+            <div class="post-content">
+                <a style="font-size:1.2em;font-weight:700;" href="{{ url_for('main.post',id=post.id) }}">
+                    {{ post.title }}
+                </a>
+            </div>
+            <div class="meta" style="padding:5px 0 10px 5px;">
+                <a href="#" style="color:#b4b4b4;font-size:12px;"><i class="glyphicon glyphicon-eye-open"></i> 60</a>
+                <a href="#" style="color:#b4b4b4;font-size:12px;margin-left:10px;"><i
+                        class="glyphicon glyphicon-comment"></i> 10</a>
+                <a href="#" style="color:#b4b4b4;font-size:12px;margin-left:10px;"><i
+                        class="glyphicon glyphicon-heart"></i> 20</a>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

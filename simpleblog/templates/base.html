@@ -6,16 +6,15 @@
     {# 收藏夹图标 #}
     <link rel="shortcut icon" href="{{ url_for('static',filename='images/favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static',filename='images/favicon.ico') }}" type="image/x-icon">
-
     <style>
         /* 阿里图标链接 */
         @font-face {
             font-family: 'iconfont';  /* project id 467496 */
-            src: url('//at.alicdn.com/t/font_467496_cq2wdviqrhir7ldi.eot');
-            src: url('//at.alicdn.com/t/font_467496_cq2wdviqrhir7ldi.eot?#iefix') format('embedded-opentype'),
-            url('//at.alicdn.com/t/font_467496_cq2wdviqrhir7ldi.woff') format('woff'),
-            url('//at.alicdn.com/t/font_467496_cq2wdviqrhir7ldi.ttf') format('truetype'),
-            url('//at.alicdn.com/t/font_467496_cq2wdviqrhir7ldi.svg#iconfont') format('svg');
+            src: url('//at.alicdn.com/t/font_467496_5ioqi9o98nn1xlxr.eot');
+            src: url('//at.alicdn.com/t/font_467496_5ioqi9o98nn1xlxr.eot?#iefix') format('embedded-opentype'),
+            url('//at.alicdn.com/t/font_467496_5ioqi9o98nn1xlxr.woff') format('woff'),
+            url('//at.alicdn.com/t/font_467496_5ioqi9o98nn1xlxr.ttf') format('truetype'),
+            url('//at.alicdn.com/t/font_467496_5ioqi9o98nn1xlxr.svg#iconfont') format('svg');
         }
 
         .icon-zhuce {
@@ -47,6 +46,14 @@
 
         nav {
             background-color: white !important;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        a {
+            text-decoration: none !important;
         }
     </style>
 {% endblock %}
@@ -96,7 +103,7 @@
                                 <span class="glyphicon glyphicon-bell"></span> 消息</a>
                         </li>
                         <li>
-                            <a href="{{ url_for('main.edit_new') }}">
+                            <a href="{{ url_for('main.editor_post') }}">
                                 <span class="glyphicon glyphicon-pencil"></span> 写博客</a>
                         </li>
                         <li class="dropdown">
@@ -109,7 +116,7 @@
                             </a>
                             <ul class=" dropdown-menu" style="min-width:100%;">
                                 <li>
-                                    <a href="{{ url_for('main.user',username=current_user.username) }}">
+                                    <a href="{{ url_for('main.user',username=current_user.username,option='blog',page=1) }}">
                                         <span class="glyphicon glyphicon-user"></span> 我的主页</a>
                                 </li>
                                 <li>

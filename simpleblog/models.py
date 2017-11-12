@@ -117,8 +117,8 @@ class Role(db.Model):
         # 默认用户、管理员
         roles = {
             'User':
-                (Permission.FOLLOW | Permission.COMMENT
-                 | Permission.WRITE_ARTICLES | Permission.MODERATE_COMMENTS, True),
+            (Permission.FOLLOW | Permission.COMMENT
+             | Permission.WRITE_ARTICLES | Permission.MODERATE_COMMENTS, True),
             'Administrator': (0xff, False)
         }
         for r in roles:
@@ -182,7 +182,7 @@ class User(UserMixin, db.Model):
             if not self.role:
                 self.role = Role.query.filter_by(default=True).first()
 
-        # 设置gravatar的头像
+        # 设置gravatar的头像Hash
         if self.email and not self.gravatar_hash:
             self.gravatar_hash = hashlib.md5(
                 self.email.encode('utf-8')).hexdigest()
@@ -209,7 +209,7 @@ class User(UserMixin, db.Model):
     # 检查权限
     def can(self, permissions):
         return self.role is not None and (
-                                             self.role.permissions & permissions) == permissions
+            self.role.permissions & permissions) == permissions
 
     # 是否是管理员
     def is_administrator(self):
