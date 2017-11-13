@@ -89,9 +89,11 @@ class Comment(db.Model):
 
 # 用户关注表
 class Follow(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    follower_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-    following_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    follower_id = db.Column(
+        db.Integer(), db.ForeignKey('user.id'), primary_key=True)
+    followed_id = db.Column(
+        db.Integer(), db.ForeignKey('user.id'), primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
 
 
 # 用户权限
@@ -160,16 +162,16 @@ class User(UserMixin, db.Model):
         backref=db.backref('user', lazy='joined'),
         lazy='dynamic',
         cascade='all,delete-orphan')
-    followers = db.relationship(
-        'Follow',
-        foreign_keys=[Follow.following_id],
-        backref=db.backref('following', lazy='joined'),
-        lazy='dynamic',
-        cascade='all,delete-orphan')
-    following = db.relationship(
+    followed = db.relationship(
         'Follow',
         foreign_keys=[Follow.follower_id],
         backref=db.backref('follower', lazy='joined'),
+        lazy='dynamic',
+        cascade='all,delete-orphan')
+    followers = db.relationship(
+        'Follow',
+        foreign_keys=[Follow.followed_id],
+        backref=db.backref('followed', lazy='joined'),
         lazy='dynamic',
         cascade='all,delete-orphan')
 
@@ -285,6 +287,29 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
+    # 关注用户
+    def follow(self, user):
+        if not self.is_following(user):
+            f = Follow(follower=self, followed=user)
+            db.session.add(f)
+            db.session.commit()
+
+    # 取消关注
+    def unfollow(self, user):
+        f = self.followed.filter_by(followed_id=user.id).first()
+        if f:
+            db.session.delete(f)
+            db.session.commit()
+
+    # 是否关注了该用户
+    def is_following(self, user):
+        return self.followed.filter_by(followed_id=user.id).first() is not None
+
+    # 是否被该用户关注了
+    def is_followed_by(self, user):
+        return self.followers.filter_by(
+            follower_id=user.id).first() is not None
+
 
 # 匿名用户
 class AnonymousUser(AnonymousUserMixin):
@@ -293,6 +318,9 @@ class AnonymousUser(AnonymousUserMixin):
 
     def is_administrator(self):
         return False
+
+
+login_manager.anonymous_user = AnonymousUser
 
 
 # Flask Login用user_loader获取用户

@@ -30,10 +30,44 @@
         <div class="col-md-8" style="padding:0;">
             {# 资料 #}
             <div class="card">
+                {# 头像 #}
                 <img src="{{ user.gravatar() }}" class="img-thumbnail"
                      width="80" height="80" style="float:left">
-                <div style="padding-left:100px;font-size:21px;font-weight:bold;">{{ user.username }}</div>
-                <div style="padding-left:100px;">上次登录 {{ moment(user.last_seen).fromNow(refresh=True) }}</div>
+                {# 昵称 #}
+                <div style="padding-left:100px;font-size:21px;font-weight:bold;">
+                    {{ user.username }}
+                    {# 关注按钮 #}
+                    {% if (not current_user.can(Permission.FOLLOW)) or (current_user!=user and not current_user.is_following(user)) %}
+                        <a style="margin:0 0 2px 5px;padding:0 5px 0 5px;line-height:normal;border-radius:40px;"
+                           href="{{ url_for('main.follow',username=user.username) }}"
+                           class="btn btn-xs btn-success">
+                            <i class="glyphicon glyphicon-plus"></i> 关注</a>
+                    {% elif current_user!=user and current_user.is_following(user) %}
+                        <a style="margin:0 0 2px 5px;padding:0 5px 0 5px;line-height:normal;border-radius:40px;"
+                           href="{{ url_for('main.unfollow',username=user.username) }}"
+                           class="btn btn-xs btn-success">
+                            <i class="glyphicon glyphicon-remove"></i> 取关</a>
+                    {% endif %}
+                </div>
+                {# 信息 #}
+                <div style="padding-left:100px;">
+                    {# 最近登录 #}
+                    <span class="text-muted"
+                          style="font-size:12px;">最近登录 {{ moment(user.last_seen).fromNow(refresh=True) }}
+                    </span>
+                    {# 关注 #}
+                    <div style="margin-top:2px;">
+                        <a href="#">
+                            <span class="label label-default">关注 {{ user.followed.count() }}</span>
+                        </a>
+                        <a href="#">
+                            <span class="label label-default">粉丝 {{ user.followers.count() }}</span>
+                        </a>
+                        {% if current_user.is_authencated and user!=current_user and user.is_following(current_user) %}
+                            <span class="label label-info">正在关注你</span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
 
             {# 博客动态 #}
@@ -106,9 +140,14 @@
             {# 个人介绍 #}
             <div class="card">
                 <span class="text-muted">简介</span>
-                <a href="#" style="text-decoration:none;float:right;">
-                    <span class="glyphicon glyphicon-pencil"></span> 编辑</a>
-                <div style="padding-top:10px;">{{ user.introduction }}</div>
+                {# 编辑按钮 #}
+                {% if current_user==user %}
+                    <a href="#" style="text-decoration:none;float:right;">
+                        <span class="glyphicon glyphicon-pencil"></span> 编辑</a>
+                {% endif %}
+                <div style="padding-top:10px;">
+                    {{ user.introduction | default('',True) }}
+                </div>
             </div>
 
             {# 博客分类 #}

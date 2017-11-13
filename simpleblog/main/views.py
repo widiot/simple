@@ -5,6 +5,7 @@ from datetime import datetime
 from . import main
 from .. import db
 from .forms import PostForm
+from ..decorators import permission_required, Permission
 from ..models import User, Post
 
 
@@ -94,8 +95,55 @@ def user(username, option, page):
     per_page = current_app.config['SIMPLE_PER_PAGE']
     # blog
     if option == options[0]:
-        pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+        pagination = user.posts.order_by(Post.timestamp.desc()).paginate(
             page, per_page=per_page, error_out=False)
         posts = pagination.items
     return render_template(
         'user.html', user=user, pagination=pagination, posts=posts)
+
+
+# 关注用户
+@main.route('/follow/<username>')
+@login_required
+@permission_required(Permission.FOLLOW)
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    # 检查用户是否存在
+    if user is None:
+        flash('该用户不存在')
+        return redirect(url_for('main.index'))
+
+    # 检查是否已经关注该用户
+    if current_user.is_following(user):
+        flash('你已经关注该用户')
+        return redirect(
+            url_for('main.user', username=username, option='blog', page=1))
+
+    # 关注该用户
+    print('yes')
+    current_user.follow(user)
+    return redirect(
+        url_for('main.user', username=username, option='blog', page=1))
+
+
+# 取消关注
+@main.route('/unfollow/<username>')
+@login_required
+@permission_required(Permission.FOLLOW)
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    # 检查用户是否存在
+    if user is None:
+        flash('该用户不存在')
+        return redirect(url_for('main.index'))
+
+    # 检查是否已经关注该用户
+    if not current_user.is_following(user):
+        flash('你没有关注该用户')
+        return redirect(
+            url_for('main.user', username=username, option='blog', page=1))
+
+    # 取消关注该用户
+    current_user.unfollow(user)
+    return redirect(
+        url_for('main.user', username=username, option='blog', page=1))

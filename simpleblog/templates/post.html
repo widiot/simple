@@ -23,6 +23,21 @@
             font-weight: 700;
         }
 
+        .post-content h4 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .post-content h5 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .post-content h6 {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
         .post-content p {
             font-size: 16px;
             line-height: 1.7;
@@ -55,12 +70,17 @@
                     </div>
                 </div>
                 {# 编辑按钮 #}
-                <a style="float:right;" href="{{ url_for('main.update_post',id=post.id) }}" type="button"
-                   class="btn btn-default">
-                    <span class="glyphicon glyphicon-pencil"></span> 编辑
-                </a>
+                {% if current_user==post.user %}
+                    <a style="float:right;margin-top:6px;" href="{{ url_for('main.update_post',id=post.id) }}"
+                       type="button"
+                       class="btn btn-sm btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span> 编辑
+                    </a>
+                {% endif %}
             </div>
-            <h1 class="post-title">{{ post.title | safe }}</h1>
+            {# 文章标题 #}
+            <h1 class="post-title" style="padding-bottom:5px;">{{ post.title | safe }}</h1>
+            {# 文章内容 #}
             <div class="post-content">
                 {{ post.body_html | safe }}
             </div>

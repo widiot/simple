@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 3efd16b554a7
+Revision ID: 2952a9c17f87
 Revises: 
-Create Date: 2017-11-11 14:30:48.963796
+Create Date: 2017-11-13 20:43:50.268269
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3efd16b554a7'
+revision = '2952a9c17f87'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -52,12 +52,12 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('follow',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('follower_id', sa.Integer(), nullable=True),
-    sa.Column('following_id', sa.Integer(), nullable=True),
+    sa.Column('follower_id', sa.Integer(), nullable=False),
+    sa.Column('followed_id', sa.Integer(), nullable=False),
+    sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['followed_id'], ['user.id'], ),
     sa.ForeignKeyConstraint(['follower_id'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['following_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('follower_id', 'followed_id')
     )
     op.create_table('post',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -68,6 +68,7 @@ def upgrade():
     sa.Column('stars', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=True),
+    sa.Column('published', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['category_id'], ['category.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')

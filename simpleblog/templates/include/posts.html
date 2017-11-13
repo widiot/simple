@@ -22,6 +22,12 @@
                         class="glyphicon glyphicon-comment"></i> 10</a>
                 <a href="#" style="color:#b4b4b4;font-size:12px;margin-left:10px;"><i
                         class="glyphicon glyphicon-heart"></i> 20</a>
+                {# 编辑按钮 #}
+                {% if current_user==post.user %}
+                    <a href="{{ url_for('main.update_post',id=post.id) }}"
+                       style="color:#b4b4b4;font-size:12px;margin-left:10px;">
+                        <i class="glyphicon glyphicon-pencil"></i></a>
+                {% endif %}
             </div>
         </li>
     {% endfor %}
