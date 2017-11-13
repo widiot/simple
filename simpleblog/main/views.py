@@ -1,4 +1,5 @@
-from flask import render_template, url_for, abort, flash, redirect, current_app
+from flask import (render_template, url_for, abort, flash, redirect,
+                   current_app, request)
 from flask_login import login_required, current_user
 from datetime import datetime
 from . import main
@@ -10,7 +11,11 @@ from ..models import User, Post
 # 主页
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['SIMPLE_PER_PAGE'], error_out=False)
+    posts = pagination.items
+    return render_template('index.html', posts=posts, pagination=pagination)
 
 
 # 博客固定页面
