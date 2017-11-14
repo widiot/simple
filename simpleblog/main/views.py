@@ -19,6 +19,20 @@ def index():
     return render_template('index.html', posts=posts, pagination=pagination)
 
 
+# 关注的人的博客
+@main.route('/followed-posts')
+@login_required
+def followed_posts():
+    pagination = current_user.followed_posts.order_by(
+        Post.timestamp.desc()).paginate(
+            page=request.args.get('page', 1, type=int),
+            per_page=current_app.config['SIMPLE_PER_PAGE'],
+            error_out=False)
+    posts = pagination.items
+    return render_template(
+        'followed_posts.html', posts=posts, pagination=pagination)
+
+
 # 博客固定页面
 @main.route('/post/<int:id>')
 def post(id):

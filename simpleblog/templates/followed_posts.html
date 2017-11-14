@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% import "include/macros.html" as macros %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-8 card" style="padding:0 15px;margin-bottom:10px;">
+            {% include 'include/posts.html' %}
+            {% if pagination %}
+                <nav style="text-align:center;">
+                    {{ macros.pagination_widget(pagination,'main.followed_posts') }}
+                </nav>
+            {% endif %}
+        </div>
+        <div class="col-md-4" style="padding:0 0 0 10px;">
+            <div class="card">
+                something here
+            </div>
+        </div>
+    </div>
+{% endblock %}

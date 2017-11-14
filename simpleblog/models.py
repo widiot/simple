@@ -310,6 +310,13 @@ class User(UserMixin, db.Model):
         return self.followers.filter_by(
             follower_id=user.id).first() is not None
 
+    # 关注的人的博客
+    @property
+    def followed_posts(self):
+        return Post.query.join(Follow,
+                               Follow.followed_id == Post.user_id).filter(
+                                   Follow.follower_id == self.id)
+
 
 # 匿名用户
 class AnonymousUser(AnonymousUserMixin):
