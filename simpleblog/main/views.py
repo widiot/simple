@@ -4,9 +4,9 @@ from flask_login import login_required, current_user
 from datetime import datetime
 from . import main
 from .. import db
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from ..decorators import permission_required, Permission
-from ..models import User, Post, Follow
+from ..models import User, Post, Follow, Comment
 
 
 # 主页
@@ -33,11 +33,40 @@ def followed_posts():
         'followed_posts.html', posts=posts, pagination=pagination)
 
 
-# 博客固定页面
-@main.route('/post/<int:id>')
+# 博客固定页面，以及提交评论
+@main.route('/post/<int:id>', methods=['GET', 'POST'])
 def post(id):
+    # 查找博客
     post = Post.query.get_or_404(id)
-    return render_template('post.html', post=post)
+
+    # 提交评论
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(
+            body=form.body.data,
+            timestamp=datetime.utcnow(),
+            post=post,
+            user=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('main.post', id=post.id, page=-1))
+
+    # 分页参数
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['SIMPLE_PER_PAGE']
+
+    # 如果page是-1，表明这是发表评论后的重定向，需要计算真实的page
+    if page == -1:
+        page = (post.comments.count() - 1) // per_page + 1
+    pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
+        page, per_page=per_page, error_out=False)
+    comments = pagination.items
+    return render_template(
+        'post.html',
+        post=post,
+        form=form,
+        comments=comments,
+        pagination=pagination)
 
 
 # 写博客

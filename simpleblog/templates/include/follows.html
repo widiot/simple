@@ -1,6 +1,6 @@
-<ul style="padding:0;margin-top:10px;">
+<ul style="padding:0;">
     {% for f in follows %}
-        <li>
+        <li style="border-bottom:1px solid #ddd;padding-top:10px;">
             {# 头像 #}
             <a href="{{ url_for('main.user',username=f['user'].username,option='blog',page=1) }}">
                 <img src="{{ f['user'].gravatar() }}" class="img-circle"
@@ -11,7 +11,7 @@
                     {{ f['user'].username }}</a>
             </div>
             {# 信息 #}
-            <div style="padding-left:60px;">
+            <div style="padding:0 0 15px 60px;">
                 {# 最近登录 #}
                 <span class="text-muted"
                       style="font-size:12px;">最近登录 {{ moment(f['user'].last_seen).fromNow(refresh=True) }}

@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% import "include/macros.html" as macros %}
+
 {% block styles %}
     {{ super() }}
     <style>
@@ -78,12 +80,82 @@
                     </a>
                 {% endif %}
             </div>
+
             {# 文章标题 #}
             <h1 class="post-title" style="padding-bottom:5px;">{{ post.title | safe }}</h1>
+
             {# 文章内容 #}
             <div class="post-content">
                 {{ post.body_html | safe }}
             </div>
         </div>
     </div>
+
+    {# 输入评论 #}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 card">
+            {% if current_user.is_authenticated %}
+                <form method="post" action="{{ url_for('main.post',id=post.id) }}">
+                    {# 头像 #}
+                    <a style="position:absolute;"
+                       href="{{ url_for('main.user',username=post.user.username,option='blog',page=1) }}">
+                        <img class="img-circle" src="{{ current_user.gravatar(size=40) }}">
+                    </a>
+                    {{ form.hidden_tag() }}
+                    {{ form.body(id="comment-input",style="width:91%;resize:none;margin-left:50px;",class='form-control',placeholder='发表你的评论') }}
+                    <input id="comment-submit" style="margin:5px 6px 0 0;" type="submit"
+                           class="btn btn-primary pull-right"
+                           value="评论">
+                </form>
+            {% else %}
+                <div style="text-align: center;">
+                    <a type="button" class="btn btn-primary" href="{{ url_for('auth.login') }}">
+                        登录</a>
+                    <span class="text-muted">登录后发表评论</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# 评论区 #}
+    <div class="row" id="comments">
+        <div class="col-md-8 col-md-offset-2 card">
+            <div style="padding-bottom:10px;margin-bottom:15px;border-bottom:1px solid #ddd;">
+                <span class="text-muted" style="font-size:18px;">评论</span>
+                <span style="float:right;">
+                    <a href="#">按热度</a>
+                    <a href="#">按时间</a>
+                </span>
+            </div>
+            {% include "include/comments.html" %}
+            {% if pagination %}
+                <nav style="text-align:center;">
+                    {{ macros.pagination_widget(pagination,'main.post',id=post.id,fragment='#comments') }}
+                </nav>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+        // 隐藏评论按钮
+        $("#comment-submit").hide()
+
+        // 当获得焦点时显示
+        $("#comment-input").focus(
+            function () {
+                $("#comment-submit").show(speed = "normal")
+            }
+        )
+
+        // 当失去焦点时隐藏
+        $("#comment-input").blur(
+            function () {
+                $("#comment-submit").hide(speed = "normal")
+            }
+        )
+    </script>
 {% endblock %}

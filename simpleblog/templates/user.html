@@ -64,7 +64,7 @@
                             <span class="label label-default">粉丝 {{ user.followers.count() }}</span>
                         </a>
                         {% if current_user.is_authenticated and user!=current_user and user.is_following(current_user) %}
-                            <span class="label label-info">正在关注你</span>
+                            <span class="label label-success">正在关注你</span>
                         {% endif %}
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                     {# 关注 #}
                     {% if option=='followed' %}
                         <div id="followed">
-                            {% include 'include/follow.html' %}
+                            {% include 'include/follows.html' %}
                             {% if pagination %}
                                 <nav style="text-align:center;">
                                     {{ macros.pagination_widget(pagination,'main.user',username=user.username,option='followed') }}
@@ -143,7 +143,7 @@
                     {# 粉丝 #}
                     {% if option=='followers' %}
                         <div id="followers">
-                            {% include 'include/follow.html' %}
+                            {% include 'include/follows.html' %}
                             {% if pagination %}
                                 <nav style="text-align:center;">
                                     {{ macros.pagination_widget(pagination,'main.user',username=user.username,option='followers') }}

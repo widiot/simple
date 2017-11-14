@@ -81,8 +81,8 @@ class Post(db.Model):
 # 评论
 class Comment(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    text = db.Column(db.Text())
-    date = db.Column(db.DateTime())
+    body = db.Column(db.Text())
+    timestamp = db.Column(db.DateTime(), default=datetime.utcnow())
     post_id = db.Column(db.Integer(), db.ForeignKey('post.id'))
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
