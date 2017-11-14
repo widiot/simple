@@ -1,0 +1,43 @@
+<ul style="padding:0;margin-top:10px;">
+    {% for f in follows %}
+        <li>
+            {# 头像 #}
+            <a href="{{ url_for('main.user',username=f['user'].username,option='blog',page=1) }}">
+                <img src="{{ f['user'].gravatar() }}" class="img-circle"
+                     width="50" height="50" style="float:left;margin-top:8px;"></a>
+            {# 昵称 #}
+            <div style="padding-left:60px;font-weight:bold;">
+                <a href="{{ url_for('main.user',username=f['user'].username,option='blog',page=1) }}">
+                    {{ f['user'].username }}</a>
+            </div>
+            {# 信息 #}
+            <div style="padding-left:60px;">
+                {# 最近登录 #}
+                <span class="text-muted"
+                      style="font-size:12px;">最近登录 {{ moment(f['user'].last_seen).fromNow(refresh=True) }}
+                    </span>
+                {# 关注按钮 #}
+                {% if (not current_user.can(Permission.FOLLOW)) or (current_user!=f['user'] and not current_user.is_following(f['user'])) %}
+                    <a style="float:right;padding:2px 5px;border-radius:40px;"
+                       href="{{ url_for('main.follow',username=f['user'].username) }}"
+                       class="btn btn-success">
+                        <i class="glyphicon glyphicon-plus"></i> 关注</a>
+                {% elif current_user!=f['user'] and current_user.is_following(f['user']) %}
+                    <a style="float:right;padding:2px 5px;border-radius:40px;"
+                       href="{{ url_for('main.unfollow',username=f['user'].username) }}"
+                       class="btn btn-default">
+                        <i class="glyphicon glyphicon-remove"></i> 取关</a>
+                {% endif %}
+                {# 关注 #}
+                <div style="margin-top:2px;">
+                    <a href="#">
+                        <span class="label label-default">关注 {{ f['user'].followed.count() }}</span>
+                    </a>
+                    <a href="#">
+                        <span class="label label-default">粉丝 {{ f['user'].followers.count() }}</span>
+                    </a>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

@@ -6,7 +6,7 @@ from . import main
 from .. import db
 from .forms import PostForm
 from ..decorators import permission_required, Permission
-from ..models import User, Post
+from ..models import User, Post, Follow
 
 
 # 主页
@@ -48,7 +48,6 @@ def publish_post():
             user=current_user._get_current_object())
         db.session.add(post)
         db.session.commit()
-        flash('博客发表成功')
         return redirect(url_for('main.post', id=post.id))
     else:
         flash('博客发表失败')
@@ -82,24 +81,50 @@ def update_post(id):
 # 用户资料页面
 @main.route('/user/<username>/<option>/<int:page>')
 def user(username, option, page):
-    # 页面只能是options中的
-    options = ['blog', 'latest', 'hot', 'following', 'followed']
-    if option not in options:
-        abort(404)
-
     # 查询user
     user = User.query.filter_by(username=username).first()
     if not user:
         abort(404)
 
+    # 每页显示的项目数
     per_page = current_app.config['SIMPLE_PER_PAGE']
-    # blog
-    if option == options[0]:
+
+    # 页面是固定的
+    if option == 'blog':
         pagination = user.posts.order_by(Post.timestamp.desc()).paginate(
             page, per_page=per_page, error_out=False)
         posts = pagination.items
-    return render_template(
-        'user.html', user=user, pagination=pagination, posts=posts)
+        return render_template(
+            'user.html',
+            user=user,
+            pagination=pagination,
+            posts=posts,
+            option=option)
+    elif option in ['followers', 'followed']:
+        if option == 'followers':
+            pagination = user.followers.order_by(
+                Follow.timestamp.desc()).paginate(
+                    page, per_page=per_page, error_out=False)
+            follows = [{
+                'user': item.follower,
+                'timestamp': item.timestamp
+            } for item in pagination.items]
+        else:
+            pagination = user.followed.order_by(
+                Follow.timestamp.desc()).paginate(
+                    page, per_page=per_page, error_out=False)
+            follows = [{
+                'user': item.followed,
+                'timestamp': item.timestamp
+            } for item in pagination.items]
+        return render_template(
+            'user.html',
+            user=user,
+            pagination=pagination,
+            follows=follows,
+            option=option)
+    else:
+        abort(404)
 
 
 # 关注用户

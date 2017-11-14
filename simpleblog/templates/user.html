@@ -45,7 +45,7 @@
                     {% elif current_user!=user and current_user.is_following(user) %}
                         <a style="margin:0 0 2px 5px;padding:0 5px 0 5px;line-height:normal;border-radius:40px;"
                            href="{{ url_for('main.unfollow',username=user.username) }}"
-                           class="btn btn-xs btn-success">
+                           class="btn btn-xs btn-default">
                             <i class="glyphicon glyphicon-remove"></i> 取关</a>
                     {% endif %}
                 </div>
@@ -63,7 +63,7 @@
                         <a href="#">
                             <span class="label label-default">粉丝 {{ user.followers.count() }}</span>
                         </a>
-                        {% if current_user.is_authencated and user!=current_user and user.is_following(current_user) %}
+                        {% if current_user.is_authenticated and user!=current_user and user.is_following(current_user) %}
                             <span class="label label-info">正在关注你</span>
                         {% endif %}
                     </div>
@@ -73,32 +73,31 @@
             {# 博客动态 #}
             <div class=" card">
                 {# 标签栏 #}
-                <ul id="myTab" class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#blog" data-toggle="tab">
+                <ul class="nav nav-tabs">
+                    <li {% if option=='blog' %} class="active" {% endif %}>
+                        <a href="{{ url_for('main.user',username=user.username,option='blog',page=1) }}">
                             <span class="glyphicon glyphicon-book"></span> 博客</a>
                     </li>
-                    <li>
-                        <a href="#latest" data-toggle="tab">
-                            <span class="glyphicon glyphicon-send"></span> 动态
-                        </a>
+                    <li {% if option=='latest' %} class="active" {% endif %}>
+                        <a href="#">
+                            <span class="glyphicon glyphicon-send"></span> 动态</a>
                     </li>
-                    <li>
-                        <a href="#hot" data-toggle="tab">
-                            <span class="glyphicon glyphicon-fire"></span> 热门
-                        </a>
+                    <li {% if option=='hot' %} class="active" {% endif %}>
+                        <a href="#">
+                            <span class="glyphicon glyphicon-fire"></span> 热门</a>
                     </li>
-                    <li class="dropdown">
-                        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">
+                    <li {% if option in ['followed','followers'] %} class="dropdown active" {% else %}
+                                                                    class="dropdown" {% endif %}>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="icon-guanxiqunshixin">&#xe62c;</span> 关系<b class="caret"></b>
                         </a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" style="min-width:100%;">
-                            <li>
-                                <a href="#following" tabindex="-1" data-toggle="tab">
+                        <ul class="dropdown-menu" style="min-width:100%;">
+                            <li {% if option=='followed' %} class="active" {% endif %}>
+                                <a href="{{ url_for('main.user',username=user.username,option='followed',page=1) }}">
                                     <span class="glyphicon glyphicon-eye-open"></span> 关注</a>
                             </li>
-                            <li>
-                                <a href="#followed" tabindex="-1" data-toggle="tab">
+                            <li {% if option=='followers' %} class="active" {% endif %}>
+                                <a href="{{ url_for('main.user',username=user.username,option='followers',page=1) }}">
                                     <span class="icon-fensi">&#xe606;</span> 粉丝</a>
                             </li>
                         </ul>
@@ -106,31 +105,52 @@
                 </ul>
 
                 {# 内容 #}
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade in active" id="blog">
-                        {% include 'include/posts.html' %}
-                        {% if pagination %}
-                            <nav style="text-align:center;">
-                                {{ macros.pagination_widget(pagination,'main.user',username=user.username,option='blog') }}
-                            </nav>
-                        {% endif %}
-                    </div>
+                <div>
+                    {# 博客 #}
+                    {% if option=='blog' %}
+                        <div id="blog">
+                            {% include 'include/posts.html' %}
+                            {% if pagination %}
+                                <nav style="text-align:center;">
+                                    {{ macros.pagination_widget(pagination,'main.user',username=user.username,option='blog') }}
+                                </nav>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {# 动态 #}
+                    {% if option=='latest' %}
+                        <div id="latest">
 
-                    <div class="tab-pane fade" id="latest">
+                        </div>
+                    {% endif %}
+                    {# 热门 #}
+                    {% if option=='hot' %}
+                        <div id="hot">
 
-                    </div>
-
-                    <div class="tab-pane fade" id="hot">
-
-                    </div>
-
-                    <div class="tab-pane fade" id="following">
-
-                    </div>
-
-                    <div class="tab-pane fade" id="followed">
-
-                    </div>
+                        </div>
+                    {% endif %}
+                    {# 关注 #}
+                    {% if option=='followed' %}
+                        <div id="followed">
+                            {% include 'include/follow.html' %}
+                            {% if pagination %}
+                                <nav style="text-align:center;">
+                                    {{ macros.pagination_widget(pagination,'main.user',username=user.username,option='followed') }}
+                                </nav>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {# 粉丝 #}
+                    {% if option=='followers' %}
+                        <div id="followers">
+                            {% include 'include/follow.html' %}
+                            {% if pagination %}
+                                <nav style="text-align:center;">
+                                    {{ macros.pagination_widget(pagination,'main.user',username=user.username,option='followers') }}
+                                </nav>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

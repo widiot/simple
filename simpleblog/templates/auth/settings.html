@@ -71,6 +71,12 @@
                         </td>
                     </tr>
                     <tr class="row">
+                        <td class="text-muted">邮箱</td>
+                        <td class="text-muted">
+                            {{ current_user.email }}
+                        </td>
+                    </tr>
+                    <tr class="row">
                         <td class="text-muted">昵称</td>
                         <td>
                             <form method="post" action="{{ url_for('auth.settings',option='change-username') }}">
