@@ -128,10 +128,12 @@
                 </span>
             </div>
             {% include "include/comments.html" %}
-            {% if pagination %}
+            {% if pagination and pagination.total > 0 %}
                 <nav style="text-align:center;">
                     {{ macros.pagination_widget(pagination,'main.post',id=post.id,fragment='#comments') }}
                 </nav>
+            {% else %}
+                <p style="text-align:center;">当前博客没有评论，写下第一个评论吧～</p>
             {% endif %}
         </div>
     </div>

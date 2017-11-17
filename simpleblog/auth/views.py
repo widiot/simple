@@ -150,23 +150,15 @@ def reset_password(token):
 @auth.route('/settings/<option>', methods=['GET', 'POST'])
 @login_required
 def settings(option):
-    options = [
-        'index', 'change-username', 'change-introduction', 'change-password',
-        'change-email'
-    ]
-    # 选项只能是设置中包含的
-    if option not in options:
-        abort(404)
-
     # 设置中的表单
     change_username_form = ChangeUsername()
     change_introduction_form = ChangeIntroduction()
     change_password_form = ChangePasswordForm()
     change_email_form = ChangeEmailForm()
 
-    # 如果是访问设置的主页，直接返回空表单，否则返回各个设置的表单
-    if option != options[0]:
-        if option == options[1]:  # 修改昵称
+    # 如果是访问设置的主页，直接返回空表单，否则返回各个设置的表单。如果端点不存在，则返回404
+    if option != 'index':
+        if option == 'change-username':  # 修改昵称
             if change_username_form.validate_on_submit():
                 current_user.username = change_username_form.username.data
                 db.session.add(current_user._get_current_object())
@@ -174,7 +166,7 @@ def settings(option):
                 flash('昵称修改成功')
             else:
                 flash('昵称修改失败，请重试')
-        elif option == options[2]:  # 修改简介
+        elif option == 'change-introduction':  # 修改简介
             if change_introduction_form.validate_on_submit():
                 current_user.introduction = change_introduction_form.introduction.data
                 db.session.add(current_user._get_current_object())
@@ -182,7 +174,7 @@ def settings(option):
                 flash('简介修改成功')
             else:
                 flash('简介修改失败，请重试')
-        elif option == options[3]:  # 更改密码
+        elif option == 'change-password':  # 更改密码
             if change_password_form.validate_on_submit():
                 current_user.set_password(change_password_form.password.data)
                 db.session.add(current_user._get_current_object())
@@ -190,7 +182,7 @@ def settings(option):
                 flash('密码更改成功')
             else:
                 flash('密码更改失败，请重试')
-        elif option == options[4]:  # 更改邮箱
+        elif option == 'change-email':  # 更改邮箱
             if change_email_form.validate_on_submit():
                 new_email = change_email_form.email.data
                 token = current_user.generate_change_email_token(new_email)
@@ -203,6 +195,8 @@ def settings(option):
                 flash('认证邮件已经发送，请登录你的邮箱进行确认')
             else:
                 flash('邮箱更改失败，请重试')
+        else:
+            abort(404)
 
     # TextAreaField需要单独设置它的默认值
     change_introduction_form.introduction.data = current_user.introduction

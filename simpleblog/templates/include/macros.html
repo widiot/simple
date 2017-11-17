@@ -1,4 +1,8 @@
 {# 表单的字段 #}
+{#
+field:表单的域
+class:该域的类
+#}
 {% macro form_item(field,class='form-control') %}
     {{ field(class=class,**kwargs) }}
     {% if field.errors %}
@@ -9,6 +13,11 @@
 {% endmacro %}
 
 {# 分页 #}
+{#
+pagination:分页对象
+endpoint:除了页数，URL的其他部分
+fragment:页面的碎片，即跳转到页面某个#id部分
+#}
 {% macro pagination_widget(pagination,endpoint,fragment='') %}
     <ul class="pagination">
         {# 上一页 #}
