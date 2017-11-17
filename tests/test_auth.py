@@ -48,7 +48,8 @@ class AuthTestCase(unittest.TestCase):
         # 退出
         response = self.client.get(
             url_for('auth.logout'), follow_redirects=True)
-        self.assertIn('你已经退出登录', response.get_data(as_text=True))
+        self.assertIn('登录', response.get_data(as_text=True))
+        self.assertIn('注册', response.get_data(as_text=True))
 
     # 插入一个用户
     def insert_user(self):
@@ -105,7 +106,7 @@ class AuthTestCase(unittest.TestCase):
             data={'email': 'user@example.com',
                   'password': '123456'},
             follow_redirects=True)
-        self.assertIn('Hello', response.get_data(as_text=True))
+        self.assertIn('写博客', response.get_data(as_text=True))
 
         # 修改昵称
         response = self.client.post(
