@@ -1,6 +1,6 @@
 import os
-from simpleblog import create_app, db
-from simpleblog.models import User, Role, Post
+from simple import create_app, db
+from simple.models import User, Role, Post
 
 # 创建simpleblog实例
 app = create_app(os.getenv('FLASK_CONFIG') or 'development')

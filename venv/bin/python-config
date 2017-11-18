@@ -1,4 +1,4 @@
-#!/home/widiot/workspace/flask-space/simpleblog/venv/bin/python
+#!/home/widiot/workspace/flask-space/simple/venv/bin/python
 
 import sys
 import getopt

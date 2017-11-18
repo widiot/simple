@@ -1,7 +1,7 @@
 import unittest
 from flask import url_for
-from simpleblog import create_app, db
-from simpleblog.models import User
+from simple import create_app, db
+from simple.models import User
 
 
 class AuthTestCase(unittest.TestCase):

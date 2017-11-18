@@ -1,0 +1,7 @@
+stub/false
+stub/dependency/good
+stub/dependency/bad
+# stub_package
+stub/manual
+__local__
+stub/local/true

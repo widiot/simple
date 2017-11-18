@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name='simpleblog',
-    packages=['simpleblog'],
+    name='simple',
+    packages=['simple'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[

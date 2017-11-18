@@ -1,0 +1,34 @@
+[console_scripts]
+plainbox = plainbox.public:main
+plainbox-qml-shell = plainbox.qml_shell.qml_shell:main
+plainbox-trusted-launcher-1 = plainbox.impl.secure.launcher1:main
+stubbox = plainbox.impl.box:stubbox_main
+
+[plainbox.buildsystem]
+autotools = plainbox.impl.buildsystems:AutotoolsBuildSystem
+go = plainbox.impl.buildsystems:GoBuildSystem
+make = plainbox.impl.buildsystems:MakefileBuildSystem
+
+[plainbox.exporter]
+jinja2 = plainbox.impl.exporter.jinja2:Jinja2SessionStateExporter
+json = plainbox.impl.exporter.json:JSONSessionStateExporter
+rfc822 = plainbox.impl.exporter.rfc822:RFC822SessionStateExporter
+text = plainbox.impl.exporter.text:TextSessionStateExporter
+xlsx = plainbox.impl.exporter.xlsx:XLSXSessionStateExporter [xlsx]
+
+[plainbox.parsers]
+pxu = plainbox.impl.secure.rfc822:load_rfc822_records
+pxu-override = plainbox.impl.xparsers:FieldOverride.parse
+regex = plainbox.impl.xparsers:Re.parse
+whitelist = plainbox.impl.xparsers:WhiteList.parse
+
+[plainbox.unit]
+category = plainbox.impl.unit.category:CategoryUnit
+exporter = plainbox.impl.unit.exporter:ExporterUnit
+job = plainbox.impl.unit.job:JobDefinition
+manifest entry = plainbox.impl.unit.manifest:ManifestEntryUnit
+packaging meta-data = plainbox.impl.unit.packaging:PackagingMetaDataUnit
+template = plainbox.impl.unit.template:TemplateUnit
+test plan = plainbox.impl.unit.testplan:TestPlanUnit
+unit = plainbox.impl.unit.unit:Unit
+

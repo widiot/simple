@@ -1,0 +1,13 @@
+[plainbox.parsers]
+bto = checkbox_support.parsers.image_info:parse_bto_attachment_output
+buildstamp = checkbox_support.parsers.image_info:parse_buildstamp_attachment_output
+dkms-info = checkbox_support.parsers.dkms_info:parse_dkms_info
+dmidecode = checkbox_support.parsers.dmidecode:parse_dmidecode_output
+modinfo = checkbox_support.parsers.modinfo:parse_modinfo_attachment_output
+modprobe = checkbox_support.parsers.modprobe:parse_modprobe_d_output
+pactl-list = checkbox_support.parsers.pactl:parse_pactl_output
+pci-subsys-id = checkbox_support.parsers.pci_config:parse_pci_subsys_id
+recovery-info = checkbox_support.parsers.image_info:parse_recovery_info_attachment_output
+submission = checkbox_support.parsers.submission:parse_submission_text
+udevadm = checkbox_support.parsers.udevadm:parse_udevadm_output
+
