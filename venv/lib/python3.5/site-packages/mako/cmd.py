@@ -1,5 +1,5 @@
 # mako/cmd.py
-# Copyright (C) 2006-2015 the Mako authors and contributors <see AUTHORS file>
+# Copyright (C) 2006-2016 the Mako authors and contributors <see AUTHORS file>
 #
 # This module is part of Mako and is released under
 # the MIT License: http://www.opensource.org/licenses/mit-license.php
@@ -58,7 +58,7 @@ def cmdline(argv=None):
 
     kw = dict([varsplit(var) for var in options.var])
     try:
-        print(template.render(**kw))
+        sys.stdout.write(template.render(**kw))
     except:
         _exit()
 

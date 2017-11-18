@@ -1,4 +1,4 @@
-#!/home/widiot/workspace/flask-space/simple/venv/bin/python
+#!/home/widiot/workspace/flask-space/simple/venv/bin/python3.5
 
 # -*- coding: utf-8 -*-
 import re

@@ -4,7 +4,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="39">
+          <list size="40">
             <item index="0" class="java.lang.String" itemvalue="python-systemd" />
             <item index="1" class="java.lang.String" itemvalue="unity-scope-chromiumbookmarks" />
             <item index="2" class="java.lang.String" itemvalue="defer" />
@@ -44,6 +44,7 @@
             <item index="36" class="java.lang.String" itemvalue="unity-scope-calculator" />
             <item index="37" class="java.lang.String" itemvalue="pygobject" />
             <item index="38" class="java.lang.String" itemvalue="Pillow" />
+            <item index="39" class="java.lang.String" itemvalue="flask" />
           </list>
         </value>
       </option>

@@ -1,5 +1,0 @@
-[encoding: UTF-8]
-[type: gettext/rfc822deb] units/manifest.pxu
-bin/plainbox-manifest-collect
-bin/plainbox-manifest-resource
-manage.py
