@@ -44,6 +44,6 @@ def create_app(config_name):
     app.register_blueprint(
         main_blueprint, static_folder='static', template_folder='templates')
     app.register_blueprint(auth_blueprint, url_prifix='/auth')
-    app.register_blueprint(api_1_0_blueprint, url_prefix='/api/v1_0')
+    app.register_blueprint(api_1_0_blueprint, url_prefix='/api/v1.0')
 
     return app

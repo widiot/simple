@@ -1,11 +1,12 @@
 import hashlib
 import bleach
-from flask import current_app, request
+from flask import current_app, request, url_for
 from flask_login import AnonymousUserMixin, UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from markdown import markdown
 from datetime import datetime
 from . import db, bcrypt, login_manager
+from .exceptions import ValidationError
 
 
 # 博客标签表
@@ -76,6 +77,39 @@ class Post(db.Model):
                 tags=allowed_tags,
                 attributes=allowed_attributes,
                 strip=True))
+
+    # 用api的JSON数据创建博客
+    def from_json(json_post):
+        title = json_post.get('title')
+        body = json_post.get('body')
+        if title is None or title == '':
+            raise ValidationError('post does not have a title')
+        if body is None or body == '':
+            raise ValidationError('post does not have a body')
+        return Post(
+            title=title,
+            body=body,
+            timestamp=datetime.utcnow(),
+            published=True)
+
+    # api调用生成博客JSON数据
+    def to_json(self):
+        return {
+            'url':
+            url_for('api.get_post', id=self.id, _external=True),
+            'body':
+            self.body,
+            'body_html':
+            self.body_html,
+            'timestamp':
+            self.timestamp,
+            'user':
+            url_for('api.get_user', id=self.user_id, _external=True),
+            'comments':
+            url_for('api.get_post_comments', id=self.id, _external=True),
+            'comment_count':
+            self.comments.count()
+        }
 
 
 # 评论
@@ -194,7 +228,7 @@ class User(UserMixin, db.Model):
         self.password_hash = bcrypt.generate_password_hash(password)
 
     # 检查明文密码的Hash值是否匹配
-    def check_password(self, password):
+    def verify_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
 
     # 生成gravatar的头像
@@ -316,6 +350,40 @@ class User(UserMixin, db.Model):
         return Post.query.join(Follow,
                                Follow.followed_id == Post.user_id).filter(
                                    Follow.follower_id == self.id)
+
+    # 生成api的认证令牌
+    def generate_auth_token(self, expiration):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
+        return s.dumps({'id': self.id})
+
+    # 验证api的认证令牌
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return None
+        return User.query.get(data['id'])
+
+    # api调用生成用户JSON
+    def to_json(self):
+        return {
+            'url':
+            url_for('api.get_user', id=self.id, _external=True),
+            'username':
+            self.username,
+            'register_date':
+            self.register_date,
+            'last_seen':
+            self.last_seen,
+            'posts':
+            url_for('api.get_user_posts', id=self.id, _external=True),
+            'followed_posts':
+            url_for('api.get_user_followed_posts', id=self.id, _external=True),
+            'post_count':
+            self.posts.count()
+        }
 
 
 # 匿名用户

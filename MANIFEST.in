@@ -1,2 +1,2 @@
-graft simpleblog/static
-graft simpleblog/templates
+graft simple/static
+graft simple/templates

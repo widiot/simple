@@ -114,6 +114,9 @@
                                 <nav style="text-align:center;">
                                     {{ macros.pagination_widget(pagination,'main.user',username=user.username,option='blog') }}
                                 </nav>
+                            {% else %}
+                                <p style="text-align:center;padding-top:15px;" class="text-muted">
+                                    还没有发表博客，发表你的第一篇博客吧～</p>
                             {% endif %}
                         </div>
                     {% endif %}
@@ -133,10 +136,12 @@
                     {% if option=='followed' %}
                         <div id="followed">
                             {% include 'include/follows.html' %}
-                            {% if pagination %}
+                            {% if pagination.total > 0 %}
                                 <nav style="text-align:center;">
                                     {{ macros.pagination_widget(pagination,'main.user',username=user.username,option='followed') }}
                                 </nav>
+                            {% else %}
+                                <p style="text-align:center;padding-top:15px;" class="text-muted">还没有关注任何人～</p>
                             {% endif %}
                         </div>
                     {% endif %}
@@ -144,10 +149,12 @@
                     {% if option=='followers' %}
                         <div id="followers">
                             {% include 'include/follows.html' %}
-                            {% if pagination %}
+                            {% if pagination.total > 0 %}
                                 <nav style="text-align:center;">
                                     {{ macros.pagination_widget(pagination,'main.user',username=user.username,option='followers') }}
                                 </nav>
+                            {% else %}
+                                <p style="text-align:center;padding-top:15px;" class="text-muted">还没有人关注你～</p>
                             {% endif %}
                         </div>
                     {% endif %}

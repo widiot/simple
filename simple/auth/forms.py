@@ -62,7 +62,7 @@ class LoginForm(FlaskForm):
             return False
 
         # 检查密码
-        if not user.check_password(self.password.data):
+        if not user.verify_password(self.password.data):
             self.password.errors.append('密码错误')
             return False
 
@@ -106,7 +106,7 @@ class ChangePasswordForm(FlaskForm):
 
     # 验证原密码是否正确
     def validate_old_password(self, field):
-        if not current_user.check_password(field.data):
+        if not current_user.verify_password(field.data):
             raise ValidationError('原密码错误')
 
 
@@ -182,7 +182,7 @@ class ChangeEmailForm(FlaskForm):
             self.email.errors.append('该邮箱已注册')
             return False
 
-        if not current_user.check_password(self.password.data):
+        if not current_user.verify_password(self.password.data):
             self.password.errors.append('密码错误')
             return False
         return True

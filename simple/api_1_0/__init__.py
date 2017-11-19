@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-api_1_0 = Blueprint('api_1_0', __name__)
+api = Blueprint('api', __name__)
 
-from . import views
+from . import authentication, comments, decorators, errors, posts, users
