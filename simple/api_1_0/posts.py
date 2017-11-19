@@ -20,7 +20,7 @@ def new_post():
 
 
 # 更新博客
-@api.route('/posts/<ind:id>', methods=['PUT'])
+@api.route('/posts/<int:id>', methods=['PUT'])
 def update_post(id):
     post = Post.query.get_or_404(id)
     if g.current_user != post.user and not g.current_user.can(

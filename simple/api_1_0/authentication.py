@@ -34,7 +34,7 @@ def verify_password(email_or_token, password):
 
 
 # 登录之后获取密令
-@auth.route('/token')
+@api.route('/token')
 def get_token():
     if g.current_user.is_anonymous() or g.token_used:
         return unauthorized('Invalid credentials')
