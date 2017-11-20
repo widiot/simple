@@ -1,5 +1,6 @@
 import unittest, json
 from base64 import b64encode
+from flask import url_for
 from simple import create_app, db
 from simple.models import Role
 
@@ -41,5 +42,5 @@ class APITestCase(unittest.TestCase):
     # 测试没有认证的时候去访问
     def test_no_auth(self):
         response = self.client.get(
-            '/api/v1.0/posts/', content_type='application/json')
+            url_for('api.get_posts'), content_type='application/json')
         self.assertEqual(401, response.status_code)

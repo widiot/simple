@@ -4,10 +4,11 @@ from . import api
 from .errors import unauthorized, forbidden
 from ..models import AnonymousUser, User
 
+# HTTPie的认证类
 auth = HTTPBasicAuth()
 
 
-# 在访问所有api的路由之前必须先登录，同时禁止未认证账号访问
+# 在访问所有api的路由之前必须先登录，并且禁止未认证账号访问
 @api.before_request
 @auth.login_required
 def before_request():
@@ -19,8 +20,7 @@ def before_request():
 @auth.verify_password
 def verify_password(email_or_token, password):
     if email_or_token == '':
-        g.current_user = AnonymousUser()
-        return True
+        return False
     if password == '':
         g.current_user = User.verify_auth_token(email_or_token)
         g.token_used = True
