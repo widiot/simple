@@ -10,7 +10,7 @@ class AuthTestCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
-        self.client = self.app.test_client()
+        self.client = self.app.test_client(use_cookies=True)
 
     def tearDown(self):
         db.session.remove()
