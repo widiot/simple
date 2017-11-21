@@ -64,3 +64,16 @@ def profile(length, profile_dir):
     app.wsgi_app = ProfilerMiddleware(
         app.wsgi_app, restrictions=[length], profile_dir=profile_dir)
     app.run()
+
+
+# 升级程序的操作
+@app.cli.command()
+def deploy():
+    from flask_migrate import upgrade
+    from simple.models import Role
+
+    # 数据库迁移
+    upgrade()
+
+    # 创建角色
+    Role.insert_roles()
