@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8085db66-2c25-4591-9ba0-b3961d0b8c25" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simple/database-test.db" afterPath="$PROJECT_DIR$/simple/database-test.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simple/api_1_0/authentication.py" afterPath="$PROJECT_DIR$/simple/api_1_0/authentication.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simple/config.py" afterPath="$PROJECT_DIR$/simple/config.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simple/main/views.py" afterPath="$PROJECT_DIR$/simple/main/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simple/models.py" afterPath="$PROJECT_DIR$/simple/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_auth.py" afterPath="$PROJECT_DIR$/tests/test_auth.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_main.py" afterPath="$PROJECT_DIR$/tests/test_main.py" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,33 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/simple/api_1_0/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="authentication.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/simple/api_1_0/authentication.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="492">
-              <caret line="20" column="46" lean-forward="false" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test_auth.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test_auth.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_auth.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="88" column="38" lean-forward="false" selection-start-line="88" selection-start-column="38" selection-end-line="88" selection-end-column="38" />
+            <state relative-caret-position="-684">
+              <caret line="103" column="28" lean-forward="false" selection-start-line="103" selection-start-column="28" selection-end-line="103" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -60,8 +35,8 @@
       <file leaf-file-name="test_main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="23" column="13" lean-forward="true" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+            <state relative-caret-position="560">
+              <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -70,7 +45,7 @@
       <file leaf-file-name="test_api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="688">
+            <state relative-caret-position="1176">
               <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
@@ -82,8 +57,30 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simple/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="228" column="28" lean-forward="false" selection-start-line="228" selection-start-column="28" selection-end-line="228" selection-end-column="28" />
+            <state relative-caret-position="492">
+              <caret line="229" column="19" lean-forward="true" selection-start-line="229" selection-start-column="19" selection-end-line="229" selection-end-column="19" />
+              <folding>
+                <element signature="e#0#109#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="55" column="10" lean-forward="false" selection-start-line="55" selection-start-column="10" selection-end-line="55" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/simple/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="140">
+              <caret line="5" column="21" lean-forward="true" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -92,7 +89,7 @@
       <file leaf-file-name="test_selenium.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_selenium.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
+            <state relative-caret-position="1764">
               <caret line="66" column="58" lean-forward="false" selection-start-line="66" selection-start-column="58" selection-end-line="66" selection-end-column="58" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
@@ -104,7 +101,7 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simple/auth/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="827">
+            <state relative-caret-position="5908">
               <caret line="220" column="0" lean-forward="false" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
               <folding />
             </state>
@@ -114,7 +111,7 @@
       <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simple/auth/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4248">
+            <state relative-caret-position="5068">
               <caret line="186" column="24" lean-forward="false" selection-start-line="186" selection-start-column="24" selection-end-line="186" selection-end-column="24" />
               <folding />
             </state>
@@ -124,7 +121,7 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simple/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
+            <state relative-caret-position="6664">
               <caret line="246" column="20" lean-forward="false" selection-start-line="246" selection-start-column="20" selection-end-line="246" selection-end-column="20" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
@@ -153,7 +150,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/simpleblog/main/__init__.py" />
         <option value="$PROJECT_DIR$/migrations/versions/f61c9759faf9_.py" />
         <option value="$PROJECT_DIR$/simpleblog/templates/auth/register.html" />
         <option value="$PROJECT_DIR$/simpleblog/templates/auth/reset_password.html" />
@@ -196,14 +192,15 @@
         <option value="$PROJECT_DIR$/simple/api_1_0/posts.py" />
         <option value="$PROJECT_DIR$/simple/api_1_0/users.py" />
         <option value="$PROJECT_DIR$/simple/api_1_0/comments.py" />
-        <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/tests/test_api.py" />
         <option value="$PROJECT_DIR$/simple/api_1_0/authentication.py" />
-        <option value="$PROJECT_DIR$/simple/main/views.py" />
         <option value="$PROJECT_DIR$/simple/models.py" />
         <option value="$PROJECT_DIR$/tests/test_main.py" />
         <option value="$PROJECT_DIR$/tests/test_selenium.py" />
         <option value="$PROJECT_DIR$/tests/test_auth.py" />
+        <option value="$PROJECT_DIR$/simple/main/views.py" />
+        <option value="$PROJECT_DIR$/simple/config.py" />
+        <option value="$PROJECT_DIR$/app.py" />
       </list>
     </option>
   </component>
@@ -254,7 +251,7 @@
               <item name="simple" type="b2602c69:ProjectViewProjectNode" />
               <item name="simple" type="462c0819:PsiDirectoryNode" />
               <item name="simple" type="462c0819:PsiDirectoryNode" />
-              <item name="auth" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="simple" type="b2602c69:ProjectViewProjectNode" />
@@ -460,9 +457,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="292" y="-6" width="1857" height="1092" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17994429" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18272981" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3267544" sideWeight="0.50194985" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -470,7 +466,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2982456" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31907895" sideWeight="0.49805015" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31798247" sideWeight="0.49805015" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -502,13 +498,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/simple/email.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/migrations/versions/86aaee47a078_.py" />
     <entry file="file://$PROJECT_DIR$/migrations/versions/2ac2754cc9b3_.py" />
     <entry file="file://$PROJECT_DIR$/migrations/versions/e355cae817c3_.py" />
@@ -578,7 +567,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -674,13 +662,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="30" column="34" lean-forward="false" selection-start-line="30" selection-start-column="34" selection-end-line="30" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tmp/coverage/coverage_html.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -699,9 +680,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="588">
           <caret line="23" column="52" lean-forward="false" selection-start-line="23" selection-start-column="52" selection-end-line="23" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#25#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -709,7 +687,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="10" column="23" lean-forward="false" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -717,9 +694,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1204">
           <caret line="48" column="20" lean-forward="false" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#59#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -727,7 +701,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="59" lean-forward="false" selection-start-line="0" selection-start-column="59" selection-end-line="0" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -735,7 +708,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -757,7 +729,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/simple/api_1_0/authentication.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
+        <state relative-caret-position="448">
           <caret line="20" column="46" lean-forward="false" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
@@ -765,17 +737,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simple/main/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="228" column="28" lean-forward="false" selection-start-line="228" selection-start-column="28" selection-end-line="228" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/simple/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
+        <state relative-caret-position="6664">
           <caret line="246" column="20" lean-forward="false" selection-start-line="246" selection-start-column="20" selection-end-line="246" selection-end-column="20" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
@@ -785,7 +749,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="688">
+        <state relative-caret-position="1176">
           <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
@@ -795,15 +759,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="23" column="13" lean-forward="true" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        <state relative-caret-position="560">
+          <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/simple/auth/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="827">
+        <state relative-caret-position="5908">
           <caret line="220" column="0" lean-forward="false" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
           <folding />
         </state>
@@ -811,7 +775,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/simple/auth/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4248">
+        <state relative-caret-position="5068">
           <caret line="186" column="24" lean-forward="false" selection-start-line="186" selection-start-column="24" selection-end-line="186" selection-end-column="24" />
           <folding />
         </state>
@@ -819,7 +783,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_selenium.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
+        <state relative-caret-position="1764">
           <caret line="66" column="58" lean-forward="false" selection-start-line="66" selection-start-column="58" selection-end-line="66" selection-end-column="58" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
@@ -829,8 +793,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_auth.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="88" column="38" lean-forward="false" selection-start-line="88" selection-start-column="38" selection-end-line="88" selection-end-column="38" />
+        <state relative-caret-position="-684">
+          <caret line="103" column="28" lean-forward="false" selection-start-line="103" selection-start-column="28" selection-end-line="103" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simple/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="5" column="21" lean-forward="true" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simple/main/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="229" column="19" lean-forward="true" selection-start-line="229" selection-start-column="19" selection-end-line="229" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="55" column="10" lean-forward="false" selection-start-line="55" selection-start-column="10" selection-end-line="55" selection-end-column="10" />
           <folding />
         </state>
       </provider>
