@@ -16,7 +16,7 @@ def before_request():
         return forbidden('Unconfirmed account')
 
 
-# 使用密码或者令牌认证
+# 使用密码或者令牌登录
 @auth.verify_password
 def verify_password(email_or_token, password):
     if email_or_token == '':
@@ -33,7 +33,7 @@ def verify_password(email_or_token, password):
     return user.verify_password(password)
 
 
-# 登录之后获取密令
+# 登录之后获取令牌代替邮箱密码
 @api.route('/token')
 def get_token():
     if g.current_user.is_anonymous() or g.token_used:

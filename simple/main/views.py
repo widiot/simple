@@ -215,3 +215,15 @@ def unfollow(username):
     current_user.unfollow(user)
     return redirect(
         url_for('main.user', username=username, option='blog', page=1))
+
+
+# 用于selenium测试的时候关闭子线程中的服务器
+@main.route('/shutdown')
+def server_shutdown():
+    if not current_app.testing:
+        abort(404)
+    shutdown = request.environ.get('werkzeug.server.shutdown')
+    if not shutdown:
+        abort(500)
+    shutdown()
+    return 'Shutting down...'

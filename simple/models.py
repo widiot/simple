@@ -242,6 +242,19 @@ class User(UserMixin, db.Model):
             self.gravatar_hash = hashlib.md5(
                 self.email.encode('utf-8')).hexdigest()
 
+    # 用于测试时插入用户
+    @staticmethod
+    def insert_test_user():
+        user = User()
+        user.email = 'user@example.com'
+        user.username = 'test'
+        user.avatar = 'default.jpg'
+        user.set_password('123456')
+        user.confirmed = True
+        db.session.add(user)
+        db.session.commit()
+        return user
+
     # 将明文密码转为Hash值存储
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password)

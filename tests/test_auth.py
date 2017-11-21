@@ -51,21 +51,9 @@ class AuthTestCase(unittest.TestCase):
         self.assertIn('登录', response.get_data(as_text=True))
         self.assertIn('注册', response.get_data(as_text=True))
 
-    # 插入一个用户
-    def insert_user(self):
-        user = User()
-        user.email = 'user@example.com'
-        user.username = 'test'
-        user.avatar = 'default.jpg'
-        user.set_password('123456')
-        user.confirmed = True
-        db.session.add(user)
-        db.session.commit()
-        return user
-
     # 测试重置密码
     def test_reset_password(self):
-        user = self.insert_user()
+        user = User.insert_test_user()
 
         # 发送认证邮件
         response = self.client.post(
@@ -98,7 +86,7 @@ class AuthTestCase(unittest.TestCase):
 
     # 测试个人设置
     def test_settings(self):
-        user = self.insert_user()
+        user = User.insert_test_user()
 
         # 登录
         response = self.client.post(

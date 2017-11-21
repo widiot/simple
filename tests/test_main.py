@@ -17,21 +17,9 @@ class MainTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    # 插入一个用户
-    def insert_user(self):
-        user = User()
-        user.email = 'user@example.com'
-        user.username = 'test'
-        user.avatar = 'default.jpg'
-        user.set_password('123456')
-        user.confirmed = True
-        db.session.add(user)
-        db.session.commit()
-        return user
-
     # 测试主页
     def test_index(self):
-        user = self.insert_user()
+        user = User.insert_test_user()
 
         # 先登录
         response = self.client.post(
