@@ -1,7 +1,7 @@
 import os, sys
 import click
-from simple import create_app, db
-from simple.models import User, Role, Post
+from simple import create_app
+from simple.models import db, User, Role, Post
 
 # coverage的配置
 COV = None

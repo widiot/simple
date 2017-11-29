@@ -280,7 +280,7 @@ class User(UserMixin, db.Model):
             self.role.permissions & permissions) == permissions
 
     # 是否是管理员
-    def is_administrator(self):
+    def is_admin(self):
         return self.can(Permission.ADMINISTER)
 
     # 生成注册验证令牌

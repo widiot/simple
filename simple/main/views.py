@@ -105,7 +105,7 @@ def update_post(id):
     post = Post.query.get_or_404(id)
 
     # 如果不是作者，并且不是管理员，则返回403
-    if current_user != post.user and not current_user.is_administrator():
+    if current_user != post.user and not current_user.is_admin():
         abort(403)
 
     form = PostForm()

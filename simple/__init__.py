@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -7,7 +8,9 @@ from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_moment import Moment
 from flask_pagedown import PageDown
+from flask_admin import Admin
 from .config import config
+from .admin import CustomModelView, CustomFileAdmin
 
 # 创建插件对象
 db = SQLAlchemy()
@@ -18,6 +21,7 @@ login_manager = LoginManager()
 mail = Mail()
 moment = Moment()
 pagedown = PageDown()
+admin = Admin()
 login_manager.login_view = 'auth.login'
 login_manager.session_protection = 'strong'
 
@@ -36,6 +40,18 @@ def create_app(config_name):
     login_manager.init_app(app)
     moment.init_app(app)
     pagedown.init_app(app)
+    admin.init_app(app)
+
+    # 创建后台管理界面
+    from .models import User, Post, Comment, Role
+    models = [User, Post, Comment, Role]
+    for model in models:
+        admin.add_view(CustomModelView(model, db.session, category='models'))
+    admin.add_view(
+        CustomFileAdmin(
+            os.path.join(os.path.dirname(__file__), 'static'),
+            '/static',
+            name='Static Files'))
 
     # 注册蓝图
     from .main import main as main_blueprint
